@@ -1,0 +1,10 @@
+{
+  "name": "line-distribution-schemas",
+  "version": "0.9.0",
+  "description": "Schemas for structure, serialization, and deserialization for line-distribution",
+  "main": "index.js",
+  "repository": "https://github.com/kavispires/line-distribution-schemas",
+  "author": "Fabiano 'Kavis' Pires <kavispires@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
