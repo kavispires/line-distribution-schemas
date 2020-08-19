@@ -1,10 +1,53 @@
 {
   "name": "line-distribution-schemas",
-  "version": "0.9.0",
-  "description": "Schemas for structure, serialization, and deserialization for line-distribution",
+  "version": "0.1.0",
+  "description": "Schemas for structure, serialization, and de-serialization for line-distribution",
   "main": "index.js",
   "repository": "https://github.com/kavispires/line-distribution-schemas",
   "author": "Fabiano 'Kavis' Pires <kavispires@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "nodemon",
+    "build": "npm-run-all clean transpile",
+    "transpile": "babel ./src --out-file dist/index.js --minified --no-comments --ignore '**/*.test.js'",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "watch-test": "jest --watch --verbose"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "jest": "^26.4.0"
+  },
+  "nodemonConfig": {
+    "exec": "npm run dev",
+    "watch": [
+      "server/*",
+      "public/*"
+    ],
+    "ignore": [
+      "*.test.js"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
 }
