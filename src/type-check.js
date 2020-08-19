@@ -1,4 +1,4 @@
-import { Enum } from './enum';
+import { Enum } from "./enum";
 
 function exists(value) {
   return value !== undefined && value !== null;
@@ -24,12 +24,14 @@ export function typeCheck(context, types) {
     }
 
     const [property, typeValue] = entries[i];
-    const [type, extra] = typeValue.split(':');
+    const [type, extra] = typeValue.split(":");
     const currentValue = context[property];
 
     // If no extra information, the property is required, check existence
     if (!extra && !exists(currentValue)) {
-      const propertyName = property.startsWith('_') ? property.substring(1) : property;
+      const propertyName = property.startsWith("_")
+        ? property.substring(1)
+        : property;
       errorMessage = `Missing required property '${propertyName}'`;
       break;
     }
@@ -37,11 +39,11 @@ export function typeCheck(context, types) {
     // Only check properties that are present
     if (exists(currentValue)) {
       switch (type) {
-        case 'Enum':
+        case "Enum":
           Enum.validate(extra, currentValue);
           break;
-        case 'Date':
-          if (typeof currentValue !== 'number') {
+        case "Date":
+          if (!currentValue || typeof currentValue !== "number") {
             errorMessage = `Expected ${property} to be a date number format YYYYMMDD, instead got ${typeof currentValue}`;
             break;
           }
@@ -57,7 +59,7 @@ export function typeCheck(context, types) {
             errorMessage = `Expected ${property} to be a date with format YYYYMMDD, instead got ${currentValue}`;
           }
           break;
-        case 'array':
+        case "array":
           if (!Array.isArray(currentValue)) {
             errorMessage = `Expected ${property} to be an array, instead got ${typeof currentValue}`;
           }
