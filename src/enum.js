@@ -1,5 +1,5 @@
 export default class EnumClass {
-  constructor(value, type) {
+  constructor() {
     this._unknown = 'UNKNOWN';
     this._na = 'NA';
 

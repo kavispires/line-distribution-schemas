@@ -1,5 +1,5 @@
-import LD from "./ld";
-import { Enum } from "./enum";
+import LD from './ld';
+import { Enum } from './enum';
 
 /**
  * Artist Class
@@ -9,7 +9,7 @@ import { Enum } from "./enum";
  */
 export default class Artist extends LD {
   constructor(id, data) {
-    super(id, "artist");
+    super(id, 'artist');
 
     // Required Properties
     this._name = null;
@@ -17,7 +17,7 @@ export default class Artist extends LD {
     // Optional Properties
     this._genre = Enum.GENRES.UNKNOWN;
     this._agency = null;
-    this._otherNames = "";
+    this._otherNames = '';
     this._isPrivate = false;
     this._isDisbanded = false;
     this._isSoloist = false;
@@ -33,15 +33,15 @@ export default class Artist extends LD {
 
   // Property types
   types = {
-    _name: "string",
-    _genre: "Enum:GENRES",
-    _agency: "string:optional",
-    _otherNames: "string:optional",
-    _isPrivate: "boolean:optional",
-    _isDisbanded: "boolean:optional",
-    _isSoloist: "boolean:optional",
-    _unit_ids: "array:optional",
-    _memberUrns: "array:optional",
+    _name: 'string',
+    _genre: 'Enum:GENRES',
+    _agency: 'string:optional',
+    _otherNames: 'string:optional',
+    _isPrivate: 'boolean:optional',
+    _isDisbanded: 'boolean:optional',
+    _isSoloist: 'boolean:optional',
+    _unit_ids: 'array:optional',
+    _memberUrns: 'array:optional',
   };
 
   /**
@@ -81,12 +81,10 @@ export default class Artist extends LD {
    * @returns {string}
    */
   get query() {
-    const membersNames = this.membersSnippet
-      .map((member) => member.name)
-      .join(" ");
-    return `${this._name ?? ""} ${this._otherNames ?? ""} ${
-      membersNames ?? ""
-    } ${this._agency ?? ""}`
+    const membersNames = this.membersSnippet.map((member) => member.name).join(' ');
+    return `${this._name ?? ''} ${this._otherNames ?? ''} ${membersNames ?? ''} ${
+      this._agency ?? ''
+    }`
       .toLowerCase()
       .trim();
   }
@@ -132,8 +130,7 @@ export default class Artist extends LD {
     if (data.unitIDs) this._unit_ids = data.unitIDs;
     if (data.memberUrns) this._memberUrns = data.memberUrns;
     // Validate and add Enums
-    if (data.genre && Enum.validate("GENRES", data.genre))
-      this._genre = data.genre;
+    if (data.genre && Enum.validate('GENRES', data.genre)) this._genre = data.genre;
 
     this.validate();
 
@@ -173,7 +170,7 @@ export default class Artist extends LD {
    * @returns {object}
    */
   parseMemberUrn(urn) {
-    const [type, birthdate, id, name, colorID] = urn.split(":");
+    const [type, birthdate, id, name, colorID] = urn.split(':');
     return {
       id,
       type: `${type}/snippet`,

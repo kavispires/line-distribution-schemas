@@ -1,87 +1,87 @@
-import Member from "./member";
+import Member from './member';
 
-describe("Member", function () {
-  const ID = "abc123";
+describe('Member', function () {
+  const ID = 'abc123';
 
-  it("constructs a Member instance", function () {
+  it('constructs a Member instance', function () {
     const member = new Member(ID);
     expect(member instanceof Member).toBeTruthy();
   });
 
-  describe("getters", function () {
-    const ID = "abc123";
+  describe('getters', function () {
+    const ID = 'abc123';
 
-    describe("data", function () {
-      it("returns ready to use data", function () {
+    describe('data', function () {
+      it('returns ready to use data', function () {
         const member = new Member(ID, {
           birthdate: 20000101,
           color: 1,
-          gender: "MALE",
-          id: "abc123",
-          initials: "TT",
+          gender: 'MALE',
+          id: 'abc123',
+          initials: 'TT',
           isHidden: true,
           isPrivate: true,
           meta: { something: true },
-          name: "Test",
-          nationality: "KOREAN",
-          positions: ["DANCER", "RAPPER"],
-          primaryGenre: "POP",
-          referenceArtists: { "abc:Test": true },
-          tags: ["RAPSTAR"],
+          name: 'Test',
+          nationality: 'KOREAN',
+          positions: ['DANCER', 'RAPPER'],
+          primaryGenre: 'POP',
+          referenceArtists: { 'abc:Test': true },
+          tags: ['RAPSTAR'],
         });
         expect(member.data).toEqual({
           age: 19,
           birthdate: 20000101,
           color: 1,
-          gender: "MALE",
-          id: "abc123",
-          initials: "TT",
+          gender: 'MALE',
+          id: 'abc123',
+          initials: 'TT',
           isHidden: true,
           isPrivate: true,
           meta: { something: true },
-          name: "Test",
-          nationality: "KOREAN",
-          positions: ["DANCER", "RAPPER"],
-          primaryGenre: "POP",
-          referenceArtistsQuery: "test",
+          name: 'Test',
+          nationality: 'KOREAN',
+          positions: ['DANCER', 'RAPPER'],
+          primaryGenre: 'POP',
+          referenceArtistsQuery: 'test',
           referenceArtistsSnippet: [
             {
-              id: "abc",
-              name: "Test",
+              id: 'abc',
+              name: 'Test',
             },
           ],
-          tags: ["RAPSTAR"],
-          type: "member",
+          tags: ['RAPSTAR'],
+          type: 'member',
         });
       });
 
-      it("returns ready to use data with default values", function () {
+      it('returns ready to use data with default values', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
         });
         expect(member.data).toEqual({
           age: 0,
           birthdate: null,
           color: 1,
-          gender: "UNKNOWN",
-          id: "abc123",
-          initials: "TS",
+          gender: 'UNKNOWN',
+          id: 'abc123',
+          initials: 'TS',
           isHidden: false,
           isPrivate: false,
           meta: {},
-          name: "Test",
-          nationality: "UNKNOWN",
+          name: 'Test',
+          nationality: 'UNKNOWN',
           positions: [],
-          primaryGenre: "UNKNOWN",
-          referenceArtistsQuery: "",
+          primaryGenre: 'UNKNOWN',
+          referenceArtistsQuery: '',
           referenceArtistsSnippet: [],
           tags: [],
-          type: "member",
+          type: 'member',
         });
       });
 
-      it("throws errors if data is invalid", function () {
+      it('throws errors if data is invalid', function () {
         function catcher() {
           return new Member(ID).data;
         }
@@ -91,68 +91,68 @@ describe("Member", function () {
       });
     });
 
-    describe("referenceArtistsSnippet", function () {
-      it("builds snippet correctly", function () {
+    describe('referenceArtistsSnippet', function () {
+      it('builds snippet correctly', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
           referenceArtists: {
-            "abc:Test": true,
-            "def:Bobs": true,
+            'abc:Test': true,
+            'def:Bobs': true,
           },
         });
         expect(member.referenceArtistsSnippet).toEqual([
           {
-            id: "abc",
-            name: "Test",
+            id: 'abc',
+            name: 'Test',
           },
           {
-            id: "def",
-            name: "Bobs",
+            id: 'def',
+            name: 'Bobs',
           },
         ]);
       });
 
-      it("returns empty array when member does not have any reference artist", function () {
+      it('returns empty array when member does not have any reference artist', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
         });
         expect(member.referenceArtistsSnippet).toEqual([]);
       });
     });
 
-    describe("referenceArtistsQuery", function () {
-      it("builds query correctly", function () {
+    describe('referenceArtistsQuery', function () {
+      it('builds query correctly', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
           referenceArtists: {
-            "abc:Test": true,
-            "def:Bobs": true,
+            'abc:Test': true,
+            'def:Bobs': true,
           },
         });
-        expect(member.referenceArtistsQuery).toEqual("testbobs");
+        expect(member.referenceArtistsQuery).toEqual('testbobs');
       });
 
-      it("returns empty string when member does not have any reference artist", function () {
+      it('returns empty string when member does not have any reference artist', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
         });
-        expect(member.referenceArtistsQuery).toEqual("");
+        expect(member.referenceArtistsQuery).toEqual('');
       });
     });
   });
 
-  describe("methods", function () {
-    describe("validate", function () {
-      it("returns true if name and color are correct", function () {
-        const member = new Member(ID, { name: "Test", color: 1 });
+  describe('methods', function () {
+    describe('validate', function () {
+      it('returns true if name and color are correct', function () {
+        const member = new Member(ID, { name: 'Test', color: 1 });
         expect(member.validate()).toBeTruthy();
       });
 
-      it("throws error if name does not exist", function () {
+      it('throws error if name does not exist', function () {
         function catcher() {
           return new Member(ID, { color: 1 }).validate();
         }
@@ -162,9 +162,9 @@ describe("Member", function () {
         );
       });
 
-      it("throws error if color does not exist", function () {
+      it('throws error if color does not exist', function () {
         function catcher() {
-          return new Member(ID, { name: "Test" }).validate();
+          return new Member(ID, { name: 'Test' }).validate();
         }
 
         expect(catcher).toThrowError(
@@ -172,64 +172,60 @@ describe("Member", function () {
         );
       });
 
-      it("throws error if genre is not part of the GENRES enum", function () {
+      it('throws error if genre is not part of the GENRES enum', function () {
         function catcher() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-            primaryGenre: "SOMETHING",
+            primaryGenre: 'SOMETHING',
           }).validate();
         }
 
         expect(catcher).toThrowError("'SOMETHING' is not part of Enum(GENRES)");
       });
 
-      it("throws error if gender is not part of the GENDER enum", function () {
+      it('throws error if gender is not part of the GENDER enum', function () {
         function catcher() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-            gender: "SOMETHING",
+            gender: 'SOMETHING',
           }).validate();
         }
 
-        expect(catcher).toThrowError(
-          "'SOMETHING' is not part of Enum(GENDERS)"
-        );
+        expect(catcher).toThrowError("'SOMETHING' is not part of Enum(GENDERS)");
       });
 
-      it("throws nationality if genre is not part of the NATIONALITIES enum", function () {
+      it('throws nationality if genre is not part of the NATIONALITIES enum', function () {
         function catcher() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-            nationality: "SOMETHING",
+            nationality: 'SOMETHING',
           }).validate();
         }
 
-        expect(catcher).toThrowError(
-          "'SOMETHING' is not part of Enum(NATIONALITIES)"
-        );
+        expect(catcher).toThrowError("'SOMETHING' is not part of Enum(NATIONALITIES)");
       });
     });
 
-    describe("deserialize", function () {
-      it("works correctly with a complete set of data", function () {
+    describe('deserialize', function () {
+      it('works correctly with a complete set of data', function () {
         const member = new Member(ID, {
           birthdate: 20000101,
           color: 1,
-          gender: "MALE",
-          id: "abc123",
-          initials: "TT",
+          gender: 'MALE',
+          id: 'abc123',
+          initials: 'TT',
           isHidden: true,
           isPrivate: true,
           meta: { something: true },
-          name: "Test",
-          nationality: "KOREAN",
-          positions: ["DANCER", "RAPPER"],
-          primaryGenre: "POP",
-          referenceArtists: { "abc:Test": true },
-          tags: ["RAPSTAR"],
+          name: 'Test',
+          nationality: 'KOREAN',
+          positions: ['DANCER', 'RAPPER'],
+          primaryGenre: 'POP',
+          referenceArtists: { 'abc:Test': true },
+          tags: ['RAPSTAR'],
         });
         const result = member.deserialize();
         expect(result).toEqual({
@@ -237,27 +233,27 @@ describe("Member", function () {
             birthdate: 20000101,
             color: 1,
             gender: null,
-            initials: "TT",
+            initials: 'TT',
             isHidden: true,
             isPrivate: true,
             meta: {
               something: true,
             },
-            name: "Test",
-            nationality: "KOREAN",
-            positions: ["DANCER", "RAPPER"],
-            primaryGenre: "POP",
+            name: 'Test',
+            nationality: 'KOREAN',
+            positions: ['DANCER', 'RAPPER'],
+            primaryGenre: 'POP',
             referenceArtists: {
-              "abc:Test": true,
+              'abc:Test': true,
             },
-            tags: ["RAPSTAR"],
+            tags: ['RAPSTAR'],
           },
-          id: "abc123",
+          id: 'abc123',
         });
       });
 
-      it("works correctly omitting optional data", function () {
-        const artist = new Member(ID, { name: "Test", color: 1 });
+      it('works correctly omitting optional data', function () {
+        const artist = new Member(ID, { name: 'Test', color: 1 });
         const result = artist.deserialize();
         expect(result).toEqual({
           body: {
@@ -268,167 +264,164 @@ describe("Member", function () {
             isHidden: null,
             isPrivate: null,
             meta: null,
-            name: "Test",
+            name: 'Test',
             nationality: null,
             positions: null,
             primaryGenre: null,
             referenceArtists: null,
             tags: null,
           },
-          id: "abc123",
+          id: 'abc123',
         });
       });
     });
 
-    describe("serialize", function () {
+    describe('serialize', function () {
       let member = null;
 
       const testList = [
-        ["id", null, "123"],
-        ["name", "Test", "123"],
-        ["color", 1, 3],
-        ["birthdate", null, 20000101],
-        ["initials", "TS", "TT"],
-        ["isPrivate", false, true],
-        ["isHidden", false, true],
-        ["positions", [], ["abc"]],
-        ["tags", [], ["abc"]],
-        ["meta", {}, { "abc:Bobs": true }],
-        ["gender", "UNKNOWN", "MALE"],
-        ["primaryGenre", "UNKNOWN", "POP"],
-        ["nationality", "UNKNOWN", "AMERICAN"],
+        ['id', null, '123'],
+        ['name', 'Test', '123'],
+        ['color', 1, 3],
+        ['birthdate', null, 20000101],
+        ['initials', 'TS', 'TT'],
+        ['isPrivate', false, true],
+        ['isHidden', false, true],
+        ['positions', [], ['abc']],
+        ['tags', [], ['abc']],
+        ['meta', {}, { 'abc:Bobs': true }],
+        ['gender', 'UNKNOWN', 'MALE'],
+        ['primaryGenre', 'UNKNOWN', 'POP'],
+        ['nationality', 'UNKNOWN', 'AMERICAN'],
       ];
 
       beforeEach(function () {
-        member = new Member(null, { name: "Test", color: 1 });
+        member = new Member(null, { name: 'Test', color: 1 });
       });
 
-      test.each(testList)("sets %s", function (property, defaultValue, value) {
+      test.each(testList)('sets %s', function (property, defaultValue, value) {
         expect(member.data[property]).toEqual(defaultValue);
-        expect(member.serialize({ [property]: value })[property]).toEqual(
-          value
-        );
+        expect(member.serialize({ [property]: value })[property]).toEqual(value);
       });
 
-      it("sets referenceArtists", function () {
+      it('sets referenceArtists', function () {
         expect(member.data.referenceArtistsSnippet).toEqual([]);
         expect(
-          member.serialize({ referenceArtists: { "m123:Bobs": true } })
-            .referenceArtistsSnippet
+          member.serialize({ referenceArtists: { 'm123:Bobs': true } }).referenceArtistsSnippet
         ).toEqual([
           {
-            id: "m123",
-            name: "Bobs",
+            id: 'm123',
+            name: 'Bobs',
           },
         ]);
       });
     });
 
-    describe("addReferenceArtistUrn", function () {
-      it("works correctly", function () {
-        const member = new Member(ID, { name: "Test", color: 1 });
-        const result = member.addReferenceArtistUrn("abc", "bob");
-        expect(result).toEqual([{ id: "abc", name: "bob" }]);
+    describe('addReferenceArtistUrn', function () {
+      it('works correctly', function () {
+        const member = new Member(ID, { name: 'Test', color: 1 });
+        const result = member.addReferenceArtistUrn('abc', 'bob');
+        expect(result).toEqual([{ id: 'abc', name: 'bob' }]);
       });
 
-      it("throws an error if any parameter is missing correctly", function () {
+      it('throws an error if any parameter is missing correctly', function () {
         function catcher1() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
           }).addReferenceArtistUrn();
         }
 
         expect(catcher1).toThrowError(
-          "artistID and artistName are required to add referenceArtistUrn"
+          'artistID and artistName are required to add referenceArtistUrn'
         );
 
         function catcher2() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-          }).addReferenceArtistUrn("abc");
+          }).addReferenceArtistUrn('abc');
         }
 
         expect(catcher2).toThrowError(
-          "artistID and artistName are required to add referenceArtistUrn"
+          'artistID and artistName are required to add referenceArtistUrn'
         );
 
         function catcher3() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-          }).addReferenceArtistUrn(undefined, "Bobs");
+          }).addReferenceArtistUrn(undefined, 'Bobs');
         }
 
         expect(catcher3).toThrowError(
-          "artistID and artistName are required to add referenceArtistUrn"
+          'artistID and artistName are required to add referenceArtistUrn'
         );
       });
     });
 
-    describe("addPosition", function () {
-      it("works correctly", function () {
-        const member = new Member(ID, { name: "Test", color: 1 });
-        const result = member.addPosition("LEAD_VOCALIST");
-        expect(result).toEqual(["LEAD_VOCALIST"]);
+    describe('addPosition', function () {
+      it('works correctly', function () {
+        const member = new Member(ID, { name: 'Test', color: 1 });
+        const result = member.addPosition('LEAD_VOCALIST');
+        expect(result).toEqual(['LEAD_VOCALIST']);
       });
 
-      it("keeps positions list unique", function () {
+      it('keeps positions list unique', function () {
         const member = new Member(ID, {
-          name: "Test",
+          name: 'Test',
           color: 1,
-          positions: ["LEAD_VOCALIST", "DANCER"],
+          positions: ['LEAD_VOCALIST', 'DANCER'],
         });
-        let result = member.addPosition("DANCER");
-        expect(result).toEqual(["DANCER", "LEAD_VOCALIST"]);
-        result = member.addPosition("RAPPER");
-        expect(result).toEqual(["DANCER", "LEAD_VOCALIST", "RAPPER"]);
-        result = member.addPosition("LEAD_VOCALIST");
-        expect(result).toEqual(["DANCER", "LEAD_VOCALIST", "RAPPER"]);
+        let result = member.addPosition('DANCER');
+        expect(result).toEqual(['DANCER', 'LEAD_VOCALIST']);
+        result = member.addPosition('RAPPER');
+        expect(result).toEqual(['DANCER', 'LEAD_VOCALIST', 'RAPPER']);
+        result = member.addPosition('LEAD_VOCALIST');
+        expect(result).toEqual(['DANCER', 'LEAD_VOCALIST', 'RAPPER']);
       });
 
-      it("throws an error if any parameter is missing", function () {
+      it('throws an error if any parameter is missing', function () {
         function catcher() {
           return new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
           }).addPosition();
         }
 
-        expect(catcher).toThrowError("position is required");
+        expect(catcher).toThrowError('position is required');
       });
 
-      describe("removePosition", function () {
-        it("works correctly", function () {
-          const member = new Member(ID, { name: "Test", color: 1 });
-          const result = member.removePosition("LEAD_VOCALIST");
+      describe('removePosition', function () {
+        it('works correctly', function () {
+          const member = new Member(ID, { name: 'Test', color: 1 });
+          const result = member.removePosition('LEAD_VOCALIST');
           expect(result).toEqual([]);
         });
 
-        it("works on multiple removes", function () {
+        it('works on multiple removes', function () {
           const member = new Member(ID, {
-            name: "Test",
+            name: 'Test',
             color: 1,
-            positions: ["LEAD_VOCALIST", "DANCER"],
+            positions: ['LEAD_VOCALIST', 'DANCER'],
           });
-          let result = member.removePosition("DANCER");
-          expect(result).toEqual(["LEAD_VOCALIST"]);
-          result = member.removePosition("RAPPER");
-          expect(result).toEqual(["LEAD_VOCALIST"]);
-          result = member.removePosition("LEAD_VOCALIST");
+          let result = member.removePosition('DANCER');
+          expect(result).toEqual(['LEAD_VOCALIST']);
+          result = member.removePosition('RAPPER');
+          expect(result).toEqual(['LEAD_VOCALIST']);
+          result = member.removePosition('LEAD_VOCALIST');
           expect(result).toEqual([]);
         });
 
-        it("throws an error if any parameter is missing", function () {
+        it('throws an error if any parameter is missing', function () {
           function catcher() {
             return new Member(ID, {
-              name: "Test",
+              name: 'Test',
               color: 1,
             }).removePosition();
           }
 
-          expect(catcher).toThrowError("position is required");
+          expect(catcher).toThrowError('position is required');
         });
       });
     });

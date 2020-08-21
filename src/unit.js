@@ -1,5 +1,5 @@
-import { Enum } from "./enum";
-import LD from "./ld";
+import { Enum } from './enum';
+import LD from './ld';
 
 /**
  * Unit Class
@@ -11,7 +11,7 @@ import LD from "./ld";
  */
 export default class Unit extends LD {
   constructor(id, data) {
-    super(id, "unit");
+    super(id, 'unit');
 
     // Required Properties
     this._name = null;
@@ -36,15 +36,15 @@ export default class Unit extends LD {
 
   // Property types
   types = {
-    _name: "string",
-    _debutYear: "number",
-    _kind: "Enum:UNITS",
-    _isPrivate: "boolean:optional",
-    _artist_id: "string:optional",
-    _album_ids: "array:optional",
-    _distribution_ids: "array:optional",
-    _membersPositionHash: "object:optional",
-    _membersStatsHash: "object:optional",
+    _name: 'string',
+    _debutYear: 'number',
+    _kind: 'Enum:UNITS',
+    _isPrivate: 'boolean:optional',
+    _artist_id: 'string:optional',
+    _album_ids: 'array:optional',
+    _distribution_ids: 'array:optional',
+    _membersPositionHash: 'object:optional',
+    _membersStatsHash: 'object:optional',
   };
 
   /**
@@ -93,9 +93,7 @@ export default class Unit extends LD {
         artistID: this._artist_id || null,
         albumIDs: this.getKnownObjectValue(this._album_ids),
         distributionIDs: this.getKnownObjectValue(this._distribution_ids),
-        membersPositionHash: this.getKnownObjectValue(
-          this._membersPositionHash
-        ),
+        membersPositionHash: this.getKnownObjectValue(this._membersPositionHash),
         membersStatsHash: this.getKnownObjectValue(this._membersStatsHash),
       },
     };
@@ -116,12 +114,11 @@ export default class Unit extends LD {
     if (data.artistID) this._artist_id = data.artistID;
     if (data.albumIDs) this._album_ids = data.albumIDs;
     if (data.distributionIDs) this._distribution_ids = data.distributionIDs;
-    if (data.membersPositionHash)
-      this._membersPositionHash = data.membersPositionHash;
+    if (data.membersPositionHash) this._membersPositionHash = data.membersPositionHash;
     if (data.membersStatsHash) this._membersStatsHash = data.membersStatsHash;
 
     // Validate and add Enums
-    if (data.kind && Enum.validate("UNITS", data.kind)) this._kind = data.kind;
+    if (data.kind && Enum.validate('UNITS', data.kind)) this._kind = data.kind;
 
     this.validate();
 
@@ -137,7 +134,7 @@ export default class Unit extends LD {
 
     // MemberID:Name:PositionType : PositionLevel
     Object.entries(this._membersPositionHash ?? {}).forEach(([hash, level]) => {
-      const [id, name, position] = hash.split(":");
+      const [id, name, position] = hash.split(':');
       if (dict[id] === undefined) {
         dict[id] = {
           positions: [],
@@ -150,7 +147,7 @@ export default class Unit extends LD {
 
     // MemberID: OfficialPercentage:CustomPercentage:TotalPercentage
     Object.entries(this._membersStatsHash ?? {}).forEach(([id, stats]) => {
-      const [official, custom, total] = stats.split(":");
+      const [official, custom, total] = stats.split(':');
       if (dict[id] === undefined) {
         dict[id] = {
           id,
@@ -176,7 +173,7 @@ export default class Unit extends LD {
  * @param {string|boolean} level  one of Enum(Positions/Level)
  */
 function buildPosition(position, level) {
-  if (!level || level === "REGULAR" || level === true) {
+  if (!level || level === 'REGULAR' || level === true) {
     return position;
   }
 

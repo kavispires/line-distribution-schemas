@@ -1,46 +1,46 @@
-import Unit from "./unit";
+import Unit from './unit';
 
-describe("Unit", function () {
-  const ID = "abc123";
+describe('Unit', function () {
+  const ID = 'abc123';
 
-  it("constructs a Unit instance", function () {
+  it('constructs a Unit instance', function () {
     const unit = new Unit(ID);
     expect(unit instanceof Unit).toBeTruthy();
   });
 
-  describe("getters", function () {
-    const ID = "abc123";
+  describe('getters', function () {
+    const ID = 'abc123';
 
-    describe("data", function () {
-      it("returns ready to use data", function () {
+    describe('data', function () {
+      it('returns ready to use data', function () {
         const unit = new Unit(ID, {
-          albumIDs: ["zxc098"],
-          artistID: "abc123",
+          albumIDs: ['zxc098'],
+          artistID: 'abc123',
           debutYear: 20000101,
-          distributionIDs: ["cde456"],
+          distributionIDs: ['cde456'],
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: "SPECIAL",
-          name: "Test",
-          membersPositionHash: { "m123:Bob:VOCALIST": "LEAD" },
-          membersStatsHash: { m123: "13:67:35" },
+          kind: 'SPECIAL',
+          name: 'Test',
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+          membersStatsHash: { m123: '13:67:35' },
         });
 
         expect(unit.data).toEqual({
-          albumIDs: ["zxc098"],
-          artistID: "abc123",
+          albumIDs: ['zxc098'],
+          artistID: 'abc123',
           debutYear: 20000101,
-          distributionIDs: ["cde456"],
+          distributionIDs: ['cde456'],
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: "SPECIAL",
+          kind: 'SPECIAL',
           membersSnippet: [
             {
-              id: "m123",
-              name: "Bob",
-              positions: ["LEAD_VOCALIST"],
+              id: 'm123',
+              name: 'Bob',
+              positions: ['LEAD_VOCALIST'],
               stats: {
                 custom: 67,
                 official: 13,
@@ -48,13 +48,13 @@ describe("Unit", function () {
               },
             },
           ],
-          name: "Test",
-          type: "unit",
+          name: 'Test',
+          type: 'unit',
         });
       });
 
-      it("returns ready to use data with default values", function () {
-        const unit = new Unit(ID, { name: "Test", debutYear: 20000101 });
+      it('returns ready to use data with default values', function () {
+        const unit = new Unit(ID, { name: 'Test', debutYear: 20000101 });
 
         expect(unit.data).toEqual({
           albumIDs: [],
@@ -64,14 +64,14 @@ describe("Unit", function () {
           id: ID,
           isPrivate: false,
           isCustom: false,
-          kind: "NA",
+          kind: 'NA',
           membersSnippet: [],
-          name: "Test",
-          type: "unit",
+          name: 'Test',
+          type: 'unit',
         });
       });
 
-      it("throws errors if data is invalid", function () {
+      it('throws errors if data is invalid', function () {
         function catcher() {
           return new Unit(ID).data;
         }
@@ -81,45 +81,45 @@ describe("Unit", function () {
       });
     });
 
-    describe("memberIDs", function () {
-      it("returns the memberIDs correctly", function () {
+    describe('memberIDs', function () {
+      it('returns the memberIDs correctly', function () {
         const unit = new Unit(ID, {
-          name: "Test",
+          name: 'Test',
           debutYear: 20000101,
-          membersPositionHash: { "m123:Bob:VOCALIST": "LEAD" },
-          membersStatsHash: { m123: "13:67:35" },
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+          membersStatsHash: { m123: '13:67:35' },
         });
-        expect(unit.memberIDs).toEqual(["m123"]);
+        expect(unit.memberIDs).toEqual(['m123']);
       });
 
-      it("returns the memberIDs correctly with only membersPositionHash", function () {
+      it('returns the memberIDs correctly with only membersPositionHash', function () {
         const unit = new Unit(ID, {
-          name: "Test",
+          name: 'Test',
           debutYear: 20000101,
-          membersPositionHash: { "m123:Bob:VOCALIST": "LEAD" },
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
         });
-        expect(unit.memberIDs).toEqual(["m123"]);
+        expect(unit.memberIDs).toEqual(['m123']);
       });
 
-      it("returns the memberIDs correctly with only membersStatsHash", function () {
+      it('returns the memberIDs correctly with only membersStatsHash', function () {
         const unit = new Unit(ID, {
-          name: "Test",
+          name: 'Test',
           debutYear: 20000101,
-          membersStatsHash: { m124: "13:67:35" },
+          membersStatsHash: { m124: '13:67:35' },
         });
-        expect(unit.memberIDs).toEqual(["m124"]);
+        expect(unit.memberIDs).toEqual(['m124']);
       });
     });
   });
 
-  describe("methods", function () {
-    describe("validate", function () {
-      it("returns true if name and debutYear are correct", function () {
-        const unit = new Unit(ID, { name: "Test", debutYear: 20000101 });
+  describe('methods', function () {
+    describe('validate', function () {
+      it('returns true if name and debutYear are correct', function () {
+        const unit = new Unit(ID, { name: 'Test', debutYear: 20000101 });
         expect(unit.validate()).toBeTruthy();
       });
 
-      it("throws error if name does not exist", function () {
+      it('throws error if name does not exist', function () {
         function catcher() {
           return new Unit(ID, { debutYear: 20000101 }).validate();
         }
@@ -129,9 +129,9 @@ describe("Unit", function () {
         );
       });
 
-      it("throws error if debutYear does not exist", function () {
+      it('throws error if debutYear does not exist', function () {
         function catcher() {
-          return new Unit(ID, { name: "Test" }).validate();
+          return new Unit(ID, { name: 'Test' }).validate();
         }
 
         expect(catcher).toThrowError(
@@ -139,12 +139,12 @@ describe("Unit", function () {
         );
       });
 
-      it("throws error if kind is not part of the UNITS enum", function () {
+      it('throws error if kind is not part of the UNITS enum', function () {
         function catcher() {
           return new Unit(ID, {
-            name: "Test",
+            name: 'Test',
             debutYear: 20000101,
-            kind: "SOMETHING",
+            kind: 'SOMETHING',
           }).validate();
         }
 
@@ -152,41 +152,41 @@ describe("Unit", function () {
       });
     });
 
-    describe("deserialize", function () {
-      it("works correctly with a complete set of data", function () {
+    describe('deserialize', function () {
+      it('works correctly with a complete set of data', function () {
         const unit = new Unit(ID, {
-          albumIDs: ["zxc098"],
-          artistID: "abc123",
+          albumIDs: ['zxc098'],
+          artistID: 'abc123',
           debutYear: 20000101,
-          distributionIDs: ["cde456"],
+          distributionIDs: ['cde456'],
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: "CUSTOM",
-          name: "Test",
-          membersPositionHash: { "m123:Bob:VOCALIST": "LEAD" },
-          membersStatsHash: { m123: "13:67:35" },
+          kind: 'CUSTOM',
+          name: 'Test',
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+          membersStatsHash: { m123: '13:67:35' },
         });
         const result = unit.deserialize();
         expect(result).toEqual({
           body: {
-            albumIDs: ["zxc098"],
-            artistID: "abc123",
+            albumIDs: ['zxc098'],
+            artistID: 'abc123',
             debutYear: 20000101,
-            distributionIDs: ["cde456"],
+            distributionIDs: ['cde456'],
             isPrivate: true,
             isCustom: true,
-            kind: "CUSTOM",
-            membersPositionHash: { "m123:Bob:VOCALIST": "LEAD" },
-            membersStatsHash: { m123: "13:67:35" },
-            name: "Test",
+            kind: 'CUSTOM',
+            membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+            membersStatsHash: { m123: '13:67:35' },
+            name: 'Test',
           },
-          id: "abc123",
+          id: 'abc123',
         });
       });
 
-      it("works correctly omitting optional data", function () {
-        const artist = new Unit(ID, { name: "Test", debutYear: 20000101 });
+      it('works correctly omitting optional data', function () {
+        const artist = new Unit(ID, { name: 'Test', debutYear: 20000101 });
         const result = artist.deserialize();
         expect(result).toEqual({
           body: {
@@ -199,57 +199,53 @@ describe("Unit", function () {
             kind: null,
             membersPositionHash: null,
             membersStatsHash: null,
-            name: "Test",
+            name: 'Test',
           },
-          id: "abc123",
+          id: 'abc123',
         });
       });
     });
 
-    describe("serialize", function () {
+    describe('serialize', function () {
       let unit = null;
 
       const testList = [
-        ["id", null, "123"],
-        ["name", "Test", "123"],
-        ["debutYear", 20000101, 20000102],
-        ["isPrivate", false, true],
-        ["artistID", null, "abc"],
-        ["albumIDs", [], ["abc"]],
-        ["distributionIDs", [], ["abc"]],
+        ['id', null, '123'],
+        ['name', 'Test', '123'],
+        ['debutYear', 20000101, 20000102],
+        ['isPrivate', false, true],
+        ['artistID', null, 'abc'],
+        ['albumIDs', [], ['abc']],
+        ['distributionIDs', [], ['abc']],
       ];
 
       beforeEach(function () {
-        unit = new Unit(null, { name: "Test", debutYear: 20000101 });
+        unit = new Unit(null, { name: 'Test', debutYear: 20000101 });
       });
 
-      test.each(testList)("sets %s", function (property, defaultValue, value) {
+      test.each(testList)('sets %s', function (property, defaultValue, value) {
         expect(unit.data[property]).toEqual(defaultValue);
         expect(unit.serialize({ [property]: value })[property]).toEqual(value);
       });
 
-      it("sets membersPositionHash", function () {
+      it('sets membersPositionHash', function () {
         expect(unit.data.membersSnippet).toEqual([]);
         expect(
-          unit.serialize({ membersPositionHash: { "m123:Bob:CENTER": true } })
-            .membersSnippet
+          unit.serialize({ membersPositionHash: { 'm123:Bob:CENTER': true } }).membersSnippet
         ).toEqual([
           {
-            id: "m123",
-            name: "Bob",
-            positions: ["CENTER"],
+            id: 'm123',
+            name: 'Bob',
+            positions: ['CENTER'],
           },
         ]);
       });
 
-      it("sets membersStatsHash", function () {
+      it('sets membersStatsHash', function () {
         expect(unit.data.membersSnippet).toEqual([]);
-        expect(
-          unit.serialize({ membersStatsHash: { m123: "13:67:35" } })
-            .membersSnippet
-        ).toEqual([
+        expect(unit.serialize({ membersStatsHash: { m123: '13:67:35' } }).membersSnippet).toEqual([
           {
-            id: "m123",
+            id: 'm123',
             stats: {
               custom: 67,
               official: 13,

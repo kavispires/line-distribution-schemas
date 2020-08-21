@@ -27,10 +27,6 @@ export default class LD {
     return true;
   }
 
-  get _capitalizedType() {
-    return this._type.charAt(0).toUpperCase() + this._type.slice(1);
-  }
-
   /**
    * Sets instance id
    * @param {string} id
@@ -39,11 +35,15 @@ export default class LD {
     this._id = id;
   }
 
+  _capitalizedType() {
+    return this._type.charAt(0).toUpperCase() + this._type.slice(1);
+  }
+
   /**
    * Validates if instance has an id
    */
   validateID() {
-    if (!this._id) throw Error(`Failed to validate ${this._capitalizedType} ID`);
+    if (!this._id) throw Error(`Failed to validate ${this._capitalizedType()} ID`);
     return true;
   }
 
@@ -64,7 +64,7 @@ export default class LD {
     try {
       typeCheck(this, this.types);
     } catch (err) {
-      throw Error(`${this._capitalizedType} validation has failed: ${err.message}`);
+      throw Error(`${this._capitalizedType()} validation has failed: ${err.message}`);
     }
 
     return true;

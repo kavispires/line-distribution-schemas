@@ -27,7 +27,14 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "jest": "^26.4.0"
+    "jest": "^26.4.0",
+    "prettier": "2.0.5"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true
   },
   "nodemonConfig": {
     "exec": "npm run dev",

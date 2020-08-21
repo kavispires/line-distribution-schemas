@@ -1,5 +1,5 @@
-import { Enum } from "./enum";
-import LD from "./ld";
+import { Enum } from './enum';
+import LD from './ld';
 
 /**
  * Member Class
@@ -8,7 +8,7 @@ import LD from "./ld";
  */
 export default class Member extends LD {
   constructor(id, data) {
-    super(id, "member");
+    super(id, 'member');
 
     // Required Properties
     this._name = null;
@@ -36,19 +36,19 @@ export default class Member extends LD {
 
   // Property types
   types = {
-    _name: "string",
-    _color: "number",
-    _birthdate: "number:optional",
-    _initials: "string:optional",
-    _isHidden: "boolean:optional",
-    _isPrivate: "boolean:optional",
-    _gender: "Enum:GENDERS",
-    _nationality: "Enum:NATIONALITIES",
-    _primaryGenre: "Enum:GENRES",
-    _meta: "object:optional",
-    _positions: "object:optional",
-    _tags: "array:optional",
-    _referenceArtists: "object",
+    _name: 'string',
+    _color: 'number',
+    _birthdate: 'number:optional',
+    _initials: 'string:optional',
+    _isHidden: 'boolean:optional',
+    _isPrivate: 'boolean:optional',
+    _gender: 'Enum:GENDERS',
+    _nationality: 'Enum:NATIONALITIES',
+    _primaryGenre: 'Enum:GENRES',
+    _meta: 'object:optional',
+    _positions: 'object:optional',
+    _tags: 'array:optional',
+    _referenceArtists: 'object',
   };
 
   /**
@@ -93,8 +93,8 @@ export default class Member extends LD {
    */
   get referenceArtistsQuery() {
     return this.referenceArtistsSnippet
-      .reduce((acc, entry) => acc + entry.name, "")
-      .replace(/[{()}]/g, "")
+      .reduce((acc, entry) => acc + entry.name, '')
+      .replace(/[{()}]/g, '')
       .toLowerCase();
   }
 
@@ -144,13 +144,13 @@ export default class Member extends LD {
     if (data.meta) this._meta = data.meta;
 
     // Validate and add Enums
-    if (data.gender && Enum.validate("GENDERS", data.gender)) {
+    if (data.gender && Enum.validate('GENDERS', data.gender)) {
       this._gender = data.gender;
     }
-    if (data.primaryGenre && Enum.validate("GENRES", data.primaryGenre)) {
+    if (data.primaryGenre && Enum.validate('GENRES', data.primaryGenre)) {
       this._primaryGenre = data.primaryGenre;
     }
-    if (data.nationality && Enum.validate("NATIONALITIES", data.nationality)) {
+    if (data.nationality && Enum.validate('NATIONALITIES', data.nationality)) {
       this._nationality = data.nationality;
     }
 
@@ -167,9 +167,7 @@ export default class Member extends LD {
    */
   addReferenceArtistUrn(artistID, artistName) {
     if (!artistID || !artistName) {
-      throw Error(
-        "artistID and artistName are required to add referenceArtistUrn"
-      );
+      throw Error('artistID and artistName are required to add referenceArtistUrn');
     }
     const referenceArtists = this._referenceArtists ?? {};
     referenceArtists[`${artistID}:${artistName}`] = true;
@@ -184,7 +182,7 @@ export default class Member extends LD {
    */
   addPosition(position) {
     if (!position) {
-      throw Error("position is required");
+      throw Error('position is required');
     }
     const positions = [position, ...this._positions];
     this._positions = uniqueList(positions);
@@ -197,7 +195,7 @@ export default class Member extends LD {
    */
   removePosition(position) {
     if (!position) {
-      throw Error("position is required");
+      throw Error('position is required');
     }
     const positions = [...this._positions];
     const index = positions.indexOf(position);
@@ -213,9 +211,7 @@ export default class Member extends LD {
    * @returns an array of reference artists object (id, name)
    */
   parseReferenceArtists() {
-    return Object.keys(this._referenceArtists ?? {}).map(
-      this.parseReferenceArtist
-    );
+    return Object.keys(this._referenceArtists ?? {}).map(this.parseReferenceArtist);
   }
 
   /**
@@ -224,7 +220,7 @@ export default class Member extends LD {
    * @return {object}
    */
   parseReferenceArtist(referenceArtistUrn) {
-    const [id, name] = referenceArtistUrn.split(":");
+    const [id, name] = referenceArtistUrn.split(':');
     return {
       id,
       name,
@@ -250,7 +246,7 @@ function buildMemberInitials(name) {
  */
 const calculateAge = (function () {
   const cache = {};
-  const TODAY = process.env.NODE_ENV === "test" ? 1550000000000 : Date.now();
+  const TODAY = process.env.NODE_ENV === 'test' ? 1550000000000 : Date.now();
   return (birthdate) => {
     if (!birthdate) return 0;
 
@@ -277,7 +273,5 @@ const calculateAge = (function () {
  * @returns {array}
  */
 function uniqueList(list) {
-  return list
-    .filter((value, index, self) => self.indexOf(value) === index)
-    .sort();
+  return list.filter((value, index, self) => self.indexOf(value) === index).sort();
 }
