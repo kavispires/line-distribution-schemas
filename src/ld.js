@@ -47,6 +47,18 @@ export default class LD {
   }
 
   /**
+   * Placeholder to return the typeahead object
+   * @returns {object}
+   */
+  get typeahead() {
+    return {
+      id: this._id,
+      text: `${this._name ?? this._title ?? this._type}`,
+      query: `${this._name ?? this._title ?? this._type}`,
+    };
+  }
+
+  /**
    * Returns a Json:API formatted entry
    * @returns {object}
    */

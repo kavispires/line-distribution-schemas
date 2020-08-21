@@ -62,7 +62,6 @@ export default class Artist extends LD {
       isSoloist: this._isSoloist ?? false,
       unitIDs: this._unit_ids ?? [],
       membersSnippet: this.membersSnippet,
-      query: this.query,
     };
   }
 
@@ -100,6 +99,18 @@ export default class Artist extends LD {
     }`
       .toLowerCase()
       .trim();
+  }
+
+  /**
+   * Get artist typeahead object
+   * @returns {object}
+   */
+  get typeahead() {
+    return {
+      value: this._id,
+      text: this._name,
+      query: this.query,
+    };
   }
 
   /**

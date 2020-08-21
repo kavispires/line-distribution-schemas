@@ -43,7 +43,6 @@ describe('Member', function () {
           nationality: 'KOREAN',
           positions: ['DANCER', 'RAPPER'],
           primaryGenre: 'POP',
-          referenceArtistsQuery: 'test',
           referenceArtistsSnippet: [
             {
               id: 'abc',
@@ -75,7 +74,6 @@ describe('Member', function () {
           nationality: 'UNKNOWN',
           positions: [],
           primaryGenre: 'UNKNOWN',
-          referenceArtistsQuery: '',
           referenceArtistsSnippet: [],
           tags: [],
           type: 'member',
@@ -135,7 +133,7 @@ describe('Member', function () {
             'artists:def:Bobs': true,
           },
         });
-        expect(member.referenceArtistsQuery).toEqual('testbobs');
+        expect(member.referenceArtistsQuery).toEqual('test bobs');
       });
 
       it('returns empty string when member does not have any reference artist', function () {
@@ -169,6 +167,24 @@ describe('Member', function () {
         expect(member.relationships).toEqual({
           artists: { data: [{ id: 'abc', type: 'artist' }] },
           color: { data: { id: 1, type: 'color' } },
+        });
+      });
+    });
+
+    describe('typeahead', function () {
+      it('builds typeahead correctly', function () {
+        const member = new Member(ID, {
+          name: 'Test',
+          color: 1,
+          referenceArtists: {
+            'artists:abc:Test': true,
+            'artists:def:Bobs': true,
+          },
+        });
+        expect(member.typeahead).toEqual({
+          query: 'Test test bobs',
+          text: 'Test (Test)',
+          value: 'abc123',
         });
       });
     });

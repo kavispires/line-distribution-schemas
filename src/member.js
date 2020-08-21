@@ -72,7 +72,6 @@ export default class Member extends LD {
       primaryGenre: this._primaryGenre ?? Enum.GENRES.UNKNOWN,
       positions: this._positions ?? [],
       referenceArtistsSnippet: this.referenceArtistsSnippet,
-      referenceArtistsQuery: this.referenceArtistsQuery,
       tags: this._tags ?? [],
       meta: this._meta ?? {},
     };
@@ -107,9 +106,24 @@ export default class Member extends LD {
    */
   get referenceArtistsQuery() {
     return this.referenceArtistsSnippet
-      .reduce((acc, entry) => acc + entry.name, '')
+      .reduce((acc, entry) => `${acc} ${entry.name}`, '')
       .replace(/[{()}]/g, '')
-      .toLowerCase();
+      .toLowerCase()
+      .trim();
+  }
+
+  /**
+   * Get member typeahead object
+   * @returns {object}
+   */
+  get typeahead() {
+    const mainArtist = this.referenceArtistsSnippet[0]?.name ?? '';
+
+    return {
+      value: this._id,
+      text: `${this._name} (${mainArtist})`,
+      query: `${this._name} ${this.referenceArtistsQuery}`,
+    };
   }
 
   /**

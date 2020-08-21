@@ -45,6 +45,13 @@ describe('LD', function () {
       });
     });
 
+    describe('typeahead', function () {
+      it('returns the typeahead correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.typeahead).toEqual({ id: 'abc123', query: 'sample', text: 'sample' });
+      });
+    });
+
     describe('jsonApi', function () {
       it('returns the jsonApi correctly', function () {
         const ld = new LD(ID, 'sample');

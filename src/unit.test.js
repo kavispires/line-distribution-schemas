@@ -134,6 +134,21 @@ describe('Unit', function () {
         });
       });
     });
+
+    describe('typeahead', function () {
+      it('returns the typeahead correctly', function () {
+        const unit = new Unit(ID, {
+          albumIDs: ['zxc098'],
+          artistID: 'abc123',
+          debutYear: 20000101,
+          id: ID,
+          name: 'Test',
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+        });
+
+        expect(unit.typeahead).toEqual({ query: 'Test Bob', text: 'Test', value: 'abc123' });
+      });
+    });
   });
 
   describe('methods', function () {

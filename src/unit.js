@@ -90,6 +90,21 @@ export default class Unit extends LD {
   }
 
   /**
+   * Get member typeahead object
+   * @returns {object}
+   */
+  get typeahead() {
+    const members = this.parseUnitMembersHash();
+    const memberNames = members.reduce((acc, entry) => `${acc}${entry?.name ?? ''} `, '');
+
+    return {
+      value: this._id,
+      text: this._name,
+      query: `${this._name} ${memberNames}`.trim(),
+    };
+  }
+
+  /**
    * Prepares data for database save
    * @returns {object}
    */

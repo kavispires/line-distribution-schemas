@@ -28,7 +28,6 @@ describe('Album', function () {
           id: 'abc123',
           isPrivate: true,
           name: 'Test',
-          query: 'test test test',
           releaseDate: 20000101,
           tracklist: [{ id: 'fgh', title: 'Test', trackNumber: 1 }],
           type: 'album',
@@ -45,7 +44,6 @@ describe('Album', function () {
           id: 'abc123',
           isPrivate: false,
           name: 'Test',
-          query: 'test test',
           releaseDate: null,
           tracklist: [],
           type: 'album',
@@ -131,6 +129,21 @@ describe('Album', function () {
         const album = new Album(ID, { name: 'Test', artistUrn: 'artist:Test' });
 
         expect(album.relationships).toEqual({});
+      });
+    });
+
+    describe('typeahead', function () {
+      it('returns the typeahead correctly', function () {
+        const album = new Album(ID, {
+          name: 'Test',
+          artistUrn: 'artist:Bob',
+          tracklistUrns: ['song:Bola:fgh', 'song:Title'],
+        });
+        expect(album.typeahead).toEqual({
+          query: 'test bob bola title',
+          text: 'Test (Bob)',
+          value: 'abc123',
+        });
       });
     });
   });

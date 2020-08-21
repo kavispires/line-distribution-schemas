@@ -43,7 +43,6 @@ describe('Artist', function () {
           otherNames: 'ghi',
           type: 'artist',
           unitIDs: ['def678'],
-          query: 'test ghi bob def',
         });
       });
 
@@ -62,7 +61,6 @@ describe('Artist', function () {
           otherNames: '',
           type: 'artist',
           unitIDs: [],
-          query: 'test',
         });
       });
 
@@ -128,6 +126,27 @@ describe('Artist', function () {
         expect(artist.relationships).toEqual({
           members: { data: [{ id: 'ghi890', type: 'member' }] },
           units: { data: [{ id: 'def678', type: 'unit' }] },
+        });
+      });
+    });
+
+    describe('typeahead', function () {
+      it('returns the typeahead correctly', function () {
+        const artist = new Artist(ID, {
+          name: 'Test',
+          agency: 'def',
+          otherNames: 'ghi',
+          isPrivate: true,
+          isDisbanded: true,
+          isSoloist: true,
+          unitIDs: ['def678'],
+          genres: 'KPOP',
+          memberUrns: ['member:20000101:ghi890:Bob:1'],
+        });
+        expect(artist.typeahead).toEqual({
+          query: 'test ghi bob def',
+          text: 'Test',
+          value: 'abc123',
         });
       });
     });

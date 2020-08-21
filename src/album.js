@@ -53,7 +53,6 @@ export default class Album extends LD {
       tracklist: this.tracklist,
       artistName: this.artistSnippet.name,
       artistId: this.artistSnippet.id,
-      query: this.query,
     };
   }
 
@@ -112,6 +111,18 @@ export default class Album extends LD {
       .join(' ')}`
       .toLowerCase()
       .trim();
+  }
+
+  /**
+   * Get album typeahead object
+   * @returns {object}
+   */
+  get typeahead() {
+    return {
+      value: this._id,
+      text: `${this._name} (${this.artistSnippet.name})`,
+      query: this.query,
+    };
   }
 
   /**
