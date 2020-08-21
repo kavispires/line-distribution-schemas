@@ -3,6 +3,12 @@ export default class EnumClass {
     this._unknown = 'UNKNOWN';
     this._na = 'NA';
 
+    this.ALBUMS = {
+      ALBUM: 'ALBUM',
+      EP: 'EP',
+      SINGLE: 'SINGLE',
+      UNKNOWN: this._unknown,
+    };
     this.GENDERS = {
       FEMALE: 'FEMALE',
       MALE: 'MALE',
