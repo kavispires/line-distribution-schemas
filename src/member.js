@@ -1,10 +1,9 @@
 import { Enum } from './enum';
 import LD from './ld';
+import * as urns from './urns';
 
 /**
  * Member Class
- * Relationships:
- * - Artists (via hash referenceArtists)
  */
 export default class Member extends LD {
   constructor(id, data) {
@@ -29,7 +28,7 @@ export default class Member extends LD {
     // Direct References
 
     // Urn References
-    this._referenceArtists = {}; // ArtistID:ArtistName
+    this._referenceArtists = {}; // [artist:<artistID>:<name>]
 
     if (data) this.serialize(data);
   }
@@ -81,6 +80,7 @@ export default class Member extends LD {
 
   /**
    * Get JSON:API relationships object
+   * @returns {object}
    */
   get relationships() {
     return {
@@ -98,7 +98,7 @@ export default class Member extends LD {
    * @return {object}
    */
   get referenceArtistsSnippet() {
-    return this.parseReferenceArtists();
+    return Object.keys(this._referenceArtists ?? {}).map(urns.parseMemberArtistUrn);
   }
 
   /**
@@ -114,6 +114,7 @@ export default class Member extends LD {
 
   /**
    * Prepares data for database save
+   * @returns {object}
    */
   deserialize() {
     this.validate();
@@ -184,7 +185,7 @@ export default class Member extends LD {
       throw Error('artistID and artistName are required to add referenceArtistUrn');
     }
     const referenceArtists = this._referenceArtists ?? {};
-    referenceArtists[`${artistID}:${artistName}`] = true;
+    referenceArtists[urns.buildMemberArtistUrn({ artistID, name: artistName })] = true;
     this._referenceArtists = referenceArtists;
 
     return this.referenceArtistsSnippet;
@@ -218,27 +219,6 @@ export default class Member extends LD {
     }
     this._positions = positions;
     return this._positions;
-  }
-
-  /**
-   * Parses referenceArtists
-   * @returns an array of reference artists object (id, name)
-   */
-  parseReferenceArtists() {
-    return Object.keys(this._referenceArtists ?? {}).map(this.parseReferenceArtist);
-  }
-
-  /**
-   * Splits a referenceArtistUrn into an object with id and name
-   * @param {string} referenceArtistUrn
-   * @return {object}
-   */
-  parseReferenceArtist(referenceArtistUrn) {
-    const [id, name] = referenceArtistUrn.split(':');
-    return {
-      id,
-      name,
-    };
   }
 }
 

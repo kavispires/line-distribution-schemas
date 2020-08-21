@@ -3,11 +3,6 @@ import LD from './ld';
 
 /**
  * Unit Class
- * Relationships:
- * - Artist (OneToMany)
- * - Members
- * - Albums
- * - Distributions
  */
 export default class Unit extends LD {
   constructor(id, data) {
@@ -27,7 +22,7 @@ export default class Unit extends LD {
     this._album_ids = [];
     this._distribution_ids = [];
 
-    // Urn References
+    // Hash References
     this._membersPositionHash = {}; // MemberID:Name:PositionType : PositionLevel
     this._membersStatsHash = {}; // MemberID: OfficialPercentage:CustomPercentage:AllPercentage
 
@@ -71,6 +66,7 @@ export default class Unit extends LD {
 
   /**
    * Get JSON:API relationships object
+   * @returns {object}
    */
   get relationships() {
     return {
@@ -95,6 +91,7 @@ export default class Unit extends LD {
 
   /**
    * Prepares data for database save
+   * @returns {object}
    */
   deserialize() {
     this.validate();

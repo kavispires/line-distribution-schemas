@@ -1,5 +1,6 @@
 import LD from './ld';
 import { Enum } from './enum';
+import * as urns from './urns';
 
 /**
  * Album Class
@@ -10,7 +11,7 @@ export default class Album extends LD {
 
     // Required Properties
     this._name = null;
-    this._artistUrn = null; // Name:ArtistID(optional)
+    this._artistUrn = null; // [<name>:<artistID(optional)>]
 
     // Optional Properties
     this._category = Enum.ALBUMS.UNKNOWN;
@@ -20,7 +21,7 @@ export default class Album extends LD {
     // Direct References
 
     // Urn References
-    this._tracklistUrns = []; // Title:SongId(optional)
+    this._tracklistUrns = []; // [<title>:<songID(optional)]
 
     if (data) this.serialize(data);
   }
@@ -58,6 +59,7 @@ export default class Album extends LD {
 
   /**
    * Get JSON:API relationships object
+   * @returns {object}
    */
   get relationships() {
     const result = {};
@@ -89,7 +91,7 @@ export default class Album extends LD {
    * @returns {object[]}
    */
   get artistSnippet() {
-    return this._parseArtistUrn();
+    return urns.parseAlbumArtistUrn(this._artistUrn);
   }
 
   /**
@@ -163,20 +165,8 @@ export default class Album extends LD {
   addTrack(title, songID, trackNumber = 0) {
     const trackPosition = !trackNumber ? this._tracklistUrns.length : trackNumber - 1;
 
-    this._tracklistUrns[trackPosition] = `${title}:${songID ?? ''}`;
+    this._tracklistUrns[trackPosition] = urns.buildAlbumSongUrn({ title, songID });
     return this.tracklist;
-  }
-
-  /**
-   * Parses the artist urn (Name:ID) into an object
-   * @returns {object}
-   */
-  _parseArtistUrn() {
-    const [name, id] = this._artistUrn.split(':');
-    return {
-      name,
-      id,
-    };
   }
 
   /**
@@ -185,10 +175,10 @@ export default class Album extends LD {
    */
   _parseTracklistUrns() {
     return this._tracklistUrns.map((urn, index) => {
-      const [title, id] = urn.split(':');
+      const { title, id } = urns.parseAlbumSongUrn(urn);
       return {
         title,
-        id: id ?? null,
+        id,
         trackNumber: index + 1,
       };
     });

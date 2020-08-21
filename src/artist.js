@@ -1,11 +1,9 @@
 import LD from './ld';
 import { Enum } from './enum';
+import * as urns from './urns';
 
 /**
  * Artist Class
- * Relationships:
- * - Units (OneToMany)
- * - Members:Urns (ManyToMany)
  */
 export default class Artist extends LD {
   constructor(id, data) {
@@ -26,7 +24,7 @@ export default class Artist extends LD {
     this._unit_ids = []; // Reference: Unit
 
     // Urn References
-    this._memberUrns = []; // Type:Birthdate:MemberID:Name:ColorID
+    this._memberUrns = []; // [member:<birthdate>:<memberID>:colorID]
 
     if (data) this.serialize(data);
   }
@@ -70,6 +68,7 @@ export default class Artist extends LD {
 
   /**
    * Get JSON:API relationships object
+   * @returns {object}
    */
   get relationships() {
     return {
@@ -157,7 +156,7 @@ export default class Artist extends LD {
    * @returns the members snippet
    */
   addMemberUrn(data) {
-    this._memberUrns.push(this.buildMemberUrn(data));
+    this._memberUrns.push(urns.buildArtistMemberUrn(data));
     return this.membersSnippet;
   }
 
@@ -166,7 +165,7 @@ export default class Artist extends LD {
    * @returns {object[]}
    */
   _parseMemberUrns() {
-    return (this._memberUrns ?? []).sort().map(this.parseMemberUrn);
+    return (this._memberUrns ?? []).sort().map(urns.parseArtistMemberUrn);
   }
 
   /**
@@ -175,31 +174,6 @@ export default class Artist extends LD {
    * @returns {string[]} list of artist-member urns
    */
   _buildMemberUrns(members) {
-    return Object.values(members).map(this.buildMemberUrn);
-  }
-
-  /**
-   * Parses a member urns  into a member snippet object
-   * @param {str} urn (Type:Birthdate:MemberID:Name:ColorID)
-   * @returns {object}
-   */
-  parseMemberUrn(urn) {
-    const [type, birthdate, id, name, colorID] = urn.split(':');
-    return {
-      id,
-      type: `${type}/snippet`,
-      birthdate,
-      name,
-      colorID,
-    };
-  }
-
-  /**
-   * Builds a member urn off a member snippet object
-   * @param {object} memberSnippet
-   * @returns {string} an artist-member urn
-   */
-  buildMemberUrn({ birthdate, id, name, colorID }) {
-    return `member:${birthdate}:${id}:${name}:${colorID}`;
+    return Object.values(members).map(urns.buildArtistMemberUrn);
   }
 }

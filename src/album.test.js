@@ -13,12 +13,12 @@ describe('Album', function () {
       it('returns ready to use data', function () {
         const album = new Album('abc345', {
           name: 'Test',
-          artistUrn: 'Test:abc',
+          artistUrn: 'artist:Test:abc',
           category: 'ALBUM',
           id: 'abc123',
           isPrivate: true,
           releaseDate: 20000101,
-          tracklistUrns: ['Test:fgh'],
+          tracklistUrns: ['song:Test:fgh'],
         });
 
         expect(album.data).toEqual({
@@ -36,10 +36,10 @@ describe('Album', function () {
       });
 
       it('returns ready to use data with default values', function () {
-        const album = new Album(ID, { name: 'Test', artistUrn: 'Test' });
+        const album = new Album(ID, { name: 'Test', artistUrn: 'artist:Test' });
 
         expect(album.data).toEqual({
-          artistId: undefined,
+          artistId: null,
           artistName: 'Test',
           category: 'UNKNOWN',
           id: 'abc123',
@@ -66,9 +66,9 @@ describe('Album', function () {
       it('returns the artistSnippet correctly', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Test:cde',
+          artistUrn: 'artist:Test:cde',
         });
-        expect(album.artistSnippet).toEqual({ id: 'cde', name: 'Test' });
+        expect(album.artistSnippet).toEqual({ id: 'cde', name: 'Test', type: 'artist/snippet' });
       });
     });
 
@@ -76,8 +76,8 @@ describe('Album', function () {
       it('returns the tracklist correctly', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Test',
-          tracklistUrns: ['Test:fgh', 'Title'],
+          artistUrn: 'artist:Test',
+          tracklistUrns: ['song:Test:fgh', 'song:Title'],
         });
         const result = album.tracklist;
         expect(Array.isArray(result)).toBeTruthy();
@@ -90,7 +90,7 @@ describe('Album', function () {
       it('returns the empty array when no urns are present', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Test',
+          artistUrn: 'artist:Test',
         });
         const result = album.tracklist;
         expect(Array.isArray(result)).toBeTruthy();
@@ -102,8 +102,8 @@ describe('Album', function () {
       it('returns the query correctly', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Bob',
-          tracklistUrns: ['Bola:fgh', 'Title'],
+          artistUrn: 'artist:Bob',
+          tracklistUrns: ['song:Bola:fgh', 'song:Title'],
         });
         expect(album.query).toEqual('test bob bola title');
       });
@@ -113,12 +113,12 @@ describe('Album', function () {
       it('returns the relationships correctly', function () {
         const album = new Album('abc345', {
           name: 'Test',
-          artistUrn: 'Test:abc',
+          artistUrn: 'artist:Test:abc',
           category: 'ALBUM',
           id: 'abc123',
           isPrivate: true,
           releaseDate: 20000101,
-          tracklistUrns: ['Test:fgh'],
+          tracklistUrns: ['song:Test:fgh'],
         });
 
         expect(album.relationships).toEqual({
@@ -128,7 +128,7 @@ describe('Album', function () {
       });
 
       it('returns only the relationships keys that are present', function () {
-        const album = new Album(ID, { name: 'Test', artistUrn: 'Test' });
+        const album = new Album(ID, { name: 'Test', artistUrn: 'artist:Test' });
 
         expect(album.relationships).toEqual({});
       });
@@ -140,7 +140,7 @@ describe('Album', function () {
       it('returns true if name and genre are correct', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Test',
+          artistUrn: 'artist:Test',
         });
         expect(album.validate()).toBeTruthy();
       });
@@ -168,33 +168,33 @@ describe('Album', function () {
       it('works correctly with a complete set of data', function () {
         const album = new Album(ID, {
           name: 'Test',
-          artistUrn: 'Test:abc',
+          artistUrn: 'artist:Test:abc',
           category: 'ALBUM',
           id: 'abc123',
           isPrivate: true,
           releaseDate: 20000101,
-          tracklistUrns: ['Test:fgh'],
+          tracklistUrns: ['song:Test:fgh'],
         });
         const result = album.deserialize();
         expect(result).toEqual({
           body: {
-            artistUrn: 'Test:abc',
+            artistUrn: 'artist:Test:abc',
             category: 'ALBUM',
             isPrivate: true,
             name: 'Test',
             releaseDate: 20000101,
-            tracklistUrns: ['Test:fgh'],
+            tracklistUrns: ['song:Test:fgh'],
           },
           id: 'abc123',
         });
       });
 
       it('works correctly omitting optional data', function () {
-        const album = new Album(ID, { name: 'Test', artistUrn: 'Test:abc' });
+        const album = new Album(ID, { name: 'Test', artistUrn: 'artist:Test:abc' });
         const result = album.deserialize();
         expect(result).toEqual({
           body: {
-            artistUrn: 'Test:abc',
+            artistUrn: 'artist:Test:abc',
             category: null,
             isPrivate: null,
             name: 'Test',
@@ -218,7 +218,7 @@ describe('Album', function () {
       ];
 
       beforeEach(function () {
-        album = new Album(null, { name: 'Test', artistUrn: 'Test:abc' });
+        album = new Album(null, { name: 'Test', artistUrn: 'artist:Test:abc' });
       });
 
       test.each(testList)('sets %s', function (property, defaultValue, value) {
@@ -229,13 +229,13 @@ describe('Album', function () {
       it('sets artistUrn', function () {
         expect(album.data.artistName).toEqual('Test');
         expect(album.data.artistId).toEqual('abc');
-        album.serialize({ artistUrn: 'Bob:abc123' });
-        expect(album.artistSnippet).toEqual({ id: 'abc123', name: 'Bob' });
+        album.serialize({ artistUrn: 'artist:Bob:abc123' });
+        expect(album.artistSnippet).toEqual({ id: 'abc123', name: 'Bob', type: 'artist/snippet' });
       });
 
       it('sets tracklistUrns', function () {
         expect(album.data.tracklist).toEqual([]);
-        expect(album.serialize({ tracklistUrns: ['SongTitle:mno'] }).tracklist).toEqual([
+        expect(album.serialize({ tracklistUrns: ['song:SongTitle:mno'] }).tracklist).toEqual([
           { id: 'mno', title: 'SongTitle', trackNumber: 1 },
         ]);
       });
@@ -243,7 +243,7 @@ describe('Album', function () {
 
     describe('addTrack', function () {
       it('adds a track correctly', function () {
-        const album = new Album(null, { name: 'Test', artistUrn: 'Test:abc' });
+        const album = new Album(null, { name: 'Test', artistUrn: 'artist:Test:abc' });
 
         expect(album.data.tracklist).toEqual([]);
 
@@ -253,7 +253,7 @@ describe('Album', function () {
       });
 
       it('adds a track in a specific position correctly', function () {
-        const album = new Album(null, { name: 'Test', artistUrn: 'Test:abc' });
+        const album = new Album(null, { name: 'Test', artistUrn: 'artist:Test:abc' });
 
         expect(album.data.tracklist).toEqual([]);
 
