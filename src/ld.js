@@ -28,6 +28,15 @@ export default class LD {
   }
 
   /**
+   * Generate object with id and reference to this library entry
+   */
+  get entry() {
+    return {
+      [this._id]: this,
+    };
+  }
+
+  /**
    * Sets instance id
    * @param {string} id
    */

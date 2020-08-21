@@ -13,7 +13,7 @@
     "transpile": "babel ./src --out-file dist/index.js --minified --no-comments --ignore '**/*.test.js'",
     "clean": "rimraf dist",
     "test": "jest",
-    "watch-test": "jest --watch --verbose"
+    "watch-test": "jest --watch"
   },
   "dependencies": {
     "@babel/cli": "^7.10.5",
