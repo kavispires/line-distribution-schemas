@@ -15,6 +15,7 @@ describe('Member', function () {
       it('returns ready to use data', function () {
         const member = new Member(ID, {
           birthdate: 20000101,
+          alternativeName: 'Testing',
           color: 1,
           gender: 'MALE',
           id: 'abc123',
@@ -31,6 +32,7 @@ describe('Member', function () {
         });
         expect(member.data).toEqual({
           age: 19,
+          alternativeName: 'Testing',
           birthdate: 20000101,
           color: 1,
           gender: 'MALE',
@@ -62,6 +64,7 @@ describe('Member', function () {
         });
         expect(member.data).toEqual({
           age: 0,
+          alternativeName: '',
           birthdate: null,
           color: 1,
           gender: 'UNKNOWN',
@@ -180,10 +183,11 @@ describe('Member', function () {
             'artists:abc:Test': true,
             'artists:def:Bobs': true,
           },
+          alternativeName: 'Testing',
         });
         expect(member.typeahead).toEqual({
           query: 'Test test bobs',
-          text: 'Test (Test)',
+          text: 'Test/Testing (Test)',
           value: 'abc123',
         });
       });
@@ -259,6 +263,7 @@ describe('Member', function () {
         const member = new Member(ID, {
           birthdate: 20000101,
           color: 1,
+          alternativeName: 'Testing',
           gender: 'MALE',
           id: 'abc123',
           initials: 'TT',
@@ -276,6 +281,7 @@ describe('Member', function () {
         expect(result).toEqual({
           body: {
             birthdate: 20000101,
+            alternativeName: 'Testing',
             color: 1,
             gender: null,
             initials: 'TT',
@@ -302,6 +308,7 @@ describe('Member', function () {
         const result = artist.deserialize();
         expect(result).toEqual({
           body: {
+            alternativeName: null,
             birthdate: null,
             color: 1,
             gender: null,
@@ -338,6 +345,7 @@ describe('Member', function () {
         ['gender', 'UNKNOWN', 'MALE'],
         ['primaryGenre', 'UNKNOWN', 'POP'],
         ['nationality', 'UNKNOWN', 'AMERICAN'],
+        ['alternativeName', '', 'Testing'],
       ];
 
       beforeEach(function () {

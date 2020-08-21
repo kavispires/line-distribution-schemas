@@ -15,6 +15,7 @@ export default class Member extends LD {
 
     // Optional Properties
     this._birthdate = null;
+    this._alternativeName = '';
     this._initials = null;
     this._isHidden = false;
     this._isPrivate = false;
@@ -37,6 +38,7 @@ export default class Member extends LD {
   types = {
     _name: 'string',
     _color: 'number',
+    _alternativeName: 'string:optional',
     _birthdate: 'number:optional',
     _initials: 'string:optional',
     _isHidden: 'boolean:optional',
@@ -61,6 +63,7 @@ export default class Member extends LD {
       id: this._id,
       type: this._type,
       name: this._name,
+      alternativeName: this._alternativeName ?? '',
       initials: this._initials ?? buildMemberInitials(this._name),
       color: this._color,
       birthdate: this._birthdate,
@@ -118,10 +121,10 @@ export default class Member extends LD {
    */
   get typeahead() {
     const mainArtist = this.referenceArtistsSnippet[0]?.name ?? '';
-
+    const alternativeName = this._alternativeName ? `/${this._alternativeName}` : '';
     return {
       value: this._id,
-      text: `${this._name} (${mainArtist})`,
+      text: `${this._name}${alternativeName} (${mainArtist})`,
       query: `${this._name} ${this.referenceArtistsQuery}`,
     };
   }
@@ -136,6 +139,7 @@ export default class Member extends LD {
     return {
       id: this._id ?? null,
       body: {
+        alternativeName: this._alternativeName || null,
         name: this._name,
         birthdate: this._birthdate,
         color: this._color,
@@ -163,6 +167,7 @@ export default class Member extends LD {
     if (data.id) this._id = data.id;
     if (data.name) this._name = data.name;
     if (data.color) this._color = data.color;
+    if (data.alternativeName) this._alternativeName = data.alternativeName;
     if (data.birthdate) this._birthdate = data.birthdate;
     if (data.initials) this._initials = data.initials;
     if (data.isPrivate) this._isPrivate = data.isPrivate;
