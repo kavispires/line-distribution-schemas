@@ -143,6 +143,32 @@ describe('Member', function () {
         expect(member.referenceArtistsQuery).toEqual('');
       });
     });
+
+    describe('relationships', function () {
+      it('returns the relationships correctly', function () {
+        const member = new Member(ID, {
+          birthdate: 20000101,
+          color: 1,
+          gender: 'MALE',
+          id: 'abc123',
+          initials: 'TT',
+          isHidden: true,
+          isPrivate: true,
+          meta: { something: true },
+          name: 'Test',
+          nationality: 'KOREAN',
+          positions: ['DANCER', 'RAPPER'],
+          primaryGenre: 'POP',
+          referenceArtists: { 'abc:Test': true },
+          tags: ['RAPSTAR'],
+        });
+
+        expect(member.relationships).toEqual({
+          artists: { data: [{ id: 'abc', type: 'artist' }] },
+          color: { data: { id: 1, type: 'color' } },
+        });
+      });
+    });
   });
 
   describe('methods', function () {

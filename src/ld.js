@@ -15,6 +15,51 @@ export default class LD {
   types = {};
 
   /**
+   * Get instance id
+   */
+  get id() {
+    return this._id;
+  }
+
+  /**
+   * Generate object with id and reference to this library entry
+   */
+  get entry() {
+    return {
+      [this._id]: this,
+    };
+  }
+
+  /**
+   * Placeholder to return the data object
+   * @returns {object}
+   */
+  get data() {
+    return {};
+  }
+
+  /**
+   * Placeholder to return the relationships object
+   * @returns {object}
+   */
+  get relationships() {
+    return {};
+  }
+
+  /**
+   * Returns a Json:API formatted entry
+   * @returns {object}
+   */
+  get jsonApi() {
+    return {
+      id: this._id,
+      type: this._type,
+      attributes: this.data,
+      relationships: this.relationships,
+    };
+  }
+
+  /**
    * Flag indicating if data is valid
    * @returns {boolean}
    */
@@ -28,15 +73,6 @@ export default class LD {
   }
 
   /**
-   * Generate object with id and reference to this library entry
-   */
-  get entry() {
-    return {
-      [this._id]: this,
-    };
-  }
-
-  /**
    * Sets instance id
    * @param {string} id
    */
@@ -44,15 +80,11 @@ export default class LD {
     this._id = id;
   }
 
-  _capitalizedType() {
-    return this._type.charAt(0).toUpperCase() + this._type.slice(1);
-  }
-
   /**
    * Validates if instance has an id
    */
   validateID() {
-    if (!this._id) throw Error(`Failed to validate ${this._capitalizedType()} ID`);
+    if (!this._id) throw Error(`Failed to validate ${capitalize(this._type)} ID`);
     return true;
   }
 
@@ -73,7 +105,7 @@ export default class LD {
     try {
       typeCheck(this, this.types);
     } catch (err) {
-      throw Error(`${this._capitalizedType()} validation has failed: ${err.message}`);
+      throw Error(`${capitalize(this._type)} validation has failed: ${err.message}`);
     }
 
     return true;
@@ -96,4 +128,13 @@ export default class LD {
   getKnownObjectValue(obj) {
     return Boolean(Object.keys(obj).length) ? obj : null;
   }
+}
+
+/**
+ * Capitalizes the first letter of a string
+ * @param {string} str
+ * @returns {string}
+ */
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

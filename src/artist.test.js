@@ -110,6 +110,27 @@ describe('Artist', function () {
         expect(artist.query).toEqual('test ghi bob def');
       });
     });
+
+    describe('relationships', function () {
+      it('returns the relationships correctly', function () {
+        const artist = new Artist('abc345', {
+          name: 'Test',
+          agency: 'def',
+          otherNames: 'ghi',
+          isPrivate: true,
+          isDisbanded: true,
+          isSoloist: true,
+          unitIDs: ['def678'],
+          genres: 'KPOP',
+          memberUrns: ['member:20000101:ghi890:Bob:1'],
+        });
+
+        expect(artist.relationships).toEqual({
+          members: { data: [{ id: 'ghi890', type: 'member' }] },
+          units: { data: [{ id: 'def678', type: 'unit' }] },
+        });
+      });
+    });
   });
 
   describe('methods', function () {

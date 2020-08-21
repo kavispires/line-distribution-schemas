@@ -21,7 +21,7 @@ describe('Unit', function () {
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: 'SPECIAL',
+          category: 'SPECIAL',
           name: 'Test',
           membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
           membersStatsHash: { m123: '13:67:35' },
@@ -35,7 +35,7 @@ describe('Unit', function () {
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: 'SPECIAL',
+          category: 'SPECIAL',
           membersSnippet: [
             {
               id: 'm123',
@@ -64,7 +64,7 @@ describe('Unit', function () {
           id: ID,
           isPrivate: false,
           isCustom: false,
-          kind: 'NA',
+          category: 'NA',
           membersSnippet: [],
           name: 'Test',
           type: 'unit',
@@ -110,6 +110,30 @@ describe('Unit', function () {
         expect(unit.memberIDs).toEqual(['m124']);
       });
     });
+
+    describe('relationships', function () {
+      it('returns the relationships correctly', function () {
+        const unit = new Unit(ID, {
+          albumIDs: ['zxc098'],
+          artistID: 'abc123',
+          debutYear: 20000101,
+          distributionIDs: ['cde456'],
+          id: ID,
+          isPrivate: true,
+          isCustom: true,
+          category: 'SPECIAL',
+          name: 'Test',
+          membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
+          membersStatsHash: { m123: '13:67:35' },
+        });
+
+        expect(unit.relationships).toEqual({
+          albums: { data: [{ id: 'zxc098', type: 'unit' }] },
+          artist: { data: { id: 'abc123', type: 'artist' } },
+          members: { data: [{ id: 'm123', type: 'member' }] },
+        });
+      });
+    });
   });
 
   describe('methods', function () {
@@ -139,12 +163,12 @@ describe('Unit', function () {
         );
       });
 
-      it('throws error if kind is not part of the UNITS enum', function () {
+      it('throws error if category is not part of the UNITS enum', function () {
         function catcher() {
           return new Unit(ID, {
             name: 'Test',
             debutYear: 20000101,
-            kind: 'SOMETHING',
+            category: 'SOMETHING',
           }).validate();
         }
 
@@ -162,7 +186,7 @@ describe('Unit', function () {
           id: ID,
           isPrivate: true,
           isCustom: true,
-          kind: 'CUSTOM',
+          category: 'CUSTOM',
           name: 'Test',
           membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
           membersStatsHash: { m123: '13:67:35' },
@@ -176,7 +200,7 @@ describe('Unit', function () {
             distributionIDs: ['cde456'],
             isPrivate: true,
             isCustom: true,
-            kind: 'CUSTOM',
+            category: 'CUSTOM',
             membersPositionHash: { 'm123:Bob:VOCALIST': 'LEAD' },
             membersStatsHash: { m123: '13:67:35' },
             name: 'Test',
@@ -196,7 +220,7 @@ describe('Unit', function () {
             distributionIDs: null,
             isPrivate: null,
             isCustom: null,
-            kind: null,
+            category: null,
             membersPositionHash: null,
             membersStatsHash: null,
             name: 'Test',

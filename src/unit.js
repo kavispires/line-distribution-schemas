@@ -18,7 +18,7 @@ export default class Unit extends LD {
     this._debutYear = null;
 
     // Optional Properties
-    this._kind = Enum.UNITS.NA;
+    this._category = Enum.UNITS.NA;
     this._isPrivate = false;
     this._isCustom = false;
 
@@ -38,7 +38,7 @@ export default class Unit extends LD {
   types = {
     _name: 'string',
     _debutYear: 'number',
-    _kind: 'Enum:UNITS',
+    _category: 'Enum:UNITS',
     _isPrivate: 'boolean:optional',
     _artist_id: 'string:optional',
     _album_ids: 'array:optional',
@@ -59,13 +59,30 @@ export default class Unit extends LD {
       type: this._type,
       name: this._name,
       debutYear: this._debutYear,
-      kind: this._kind,
+      category: this._category,
       isPrivate: this._isPrivate ?? false,
       isCustom: this._isCustom ?? false,
       artistID: this._artist_id ?? null,
       albumIDs: this._album_ids ?? [],
       distributionIDs: this._distribution_ids ?? [],
       membersSnippet: this.parseUnitMembersHash(),
+    };
+  }
+
+  /**
+   * Get JSON:API relationships object
+   */
+  get relationships() {
+    return {
+      albums: {
+        data: this._album_ids.map((albumID) => ({ type: 'unit', id: albumID })),
+      },
+      artist: {
+        data: { type: 'artist', id: this._artist_id },
+      },
+      members: {
+        data: this.memberIDs.map((memberID) => ({ type: 'member', id: memberID })),
+      },
     };
   }
 
@@ -87,7 +104,7 @@ export default class Unit extends LD {
       body: {
         name: this._name,
         debutYear: this._debutYear,
-        kind: this.getKnownEnumValue(this._kind),
+        category: this.getKnownEnumValue(this._category),
         isPrivate: this._isPrivate || null,
         isCustom: this._isCustom || null,
         artistID: this._artist_id || null,
@@ -118,7 +135,7 @@ export default class Unit extends LD {
     if (data.membersStatsHash) this._membersStatsHash = data.membersStatsHash;
 
     // Validate and add Enums
-    if (data.kind && Enum.validate('UNITS', data.kind)) this._kind = data.kind;
+    if (data.category && Enum.validate('UNITS', data.category)) this._category = data.category;
 
     this.validate();
 

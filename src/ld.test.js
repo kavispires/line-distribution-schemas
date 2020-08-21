@@ -17,6 +17,46 @@ describe('LD', function () {
   });
 
   describe('getters', function () {
+    describe('id', function () {
+      it('returns the id correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.id).toEqual('abc123');
+      });
+    });
+
+    describe('entry', function () {
+      it('returns the entry correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.entry).toEqual({ [ID]: ld });
+      });
+    });
+
+    describe('data', function () {
+      it('returns the data correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.data).toEqual({});
+      });
+    });
+
+    describe('relationships', function () {
+      it('returns the relationships correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.relationships).toEqual({});
+      });
+    });
+
+    describe('jsonApi', function () {
+      it('returns the jsonApi correctly', function () {
+        const ld = new LD(ID, 'sample');
+        expect(ld.jsonApi).toEqual({
+          attributes: {},
+          id: 'abc123',
+          relationships: {},
+          type: 'sample',
+        });
+      });
+    });
+
     describe('isValid', function () {
       it('returns true when validation passes', function () {
         const ld = new LD(ID, 'sample');
@@ -27,13 +67,6 @@ describe('LD', function () {
         const ld = new LD(ID, 'sample');
         ld.types = { property: 'string' };
         expect(ld.isValid).toBeFalsy();
-      });
-    });
-
-    describe('_capitalizedType', function () {
-      it('returns the a capitalized type correctly', function () {
-        const ld = new LD(ID, 'sample');
-        expect(ld._capitalizedType()).toEqual('Sample');
       });
     });
   });

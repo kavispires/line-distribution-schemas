@@ -80,6 +80,20 @@ export default class Member extends LD {
   }
 
   /**
+   * Get JSON:API relationships object
+   */
+  get relationships() {
+    return {
+      artists: {
+        data: this.referenceArtistsSnippet.map((entry) => ({ type: 'artist', id: entry.id })),
+      },
+      color: {
+        data: { type: 'color', id: this._color },
+      },
+    };
+  }
+
+  /**
    * Builds reference artists snippet
    * @return {object}
    */

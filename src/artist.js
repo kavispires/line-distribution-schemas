@@ -69,6 +69,20 @@ export default class Artist extends LD {
   }
 
   /**
+   * Get JSON:API relationships object
+   */
+  get relationships() {
+    return {
+      members: {
+        data: this.membersSnippet.map((entry) => ({ type: 'member', id: entry.id })),
+      },
+      units: {
+        data: this._unit_ids.map((unitID) => ({ type: 'unit', id: unitID })),
+      },
+    };
+  }
+
+  /**
    * Get member snippet
    * @returns {object[]}
    */
