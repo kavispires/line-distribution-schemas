@@ -15,8 +15,9 @@ describe('Artist', function () {
           name: 'Test',
           agency: 'def',
           otherNames: 'ghi',
+          debutYear: 2000,
+          disbandmentYear: 2010,
           isPrivate: true,
-          isDisbanded: true,
           isSoloist: true,
           unitIDs: ['def678'],
           genres: 'KPOP',
@@ -27,6 +28,8 @@ describe('Artist', function () {
           agency: 'def',
           genre: 'UNKNOWN',
           id: 'abc345',
+          debutYear: 2000,
+          disbandmentYear: 2010,
           isDisbanded: true,
           isPrivate: true,
           isSoloist: true,
@@ -47,12 +50,14 @@ describe('Artist', function () {
       });
 
       it('returns ready to use data with default values', function () {
-        const artist = new Artist(ID, { name: 'Test' });
+        const artist = new Artist(ID, { name: 'Test', debutYear: 2000 });
 
         expect(artist.data).toEqual({
           agency: 'UNKNOWN',
           genre: 'UNKNOWN',
           id: 'abc123',
+          debutYear: 2000,
+          disbandmentYear: null,
           isDisbanded: false,
           isPrivate: false,
           isSoloist: false,
@@ -78,6 +83,7 @@ describe('Artist', function () {
       it('returns the membersSnippet correctly', function () {
         const artist = new Artist(ID, {
           name: 'Test',
+          debutYear: 2000,
           memberUrns: ['member:20000101:ghi890:Bob:1'],
         });
         const result = artist.membersSnippet;
@@ -92,10 +98,32 @@ describe('Artist', function () {
       });
     });
 
+    describe('isDisbanded', function () {
+      it('returns true if disbandmentYear is present', function () {
+        const artist = new Artist(ID, {
+          name: 'Test',
+          debutYear: 2000,
+          disbandmentYear: 2010,
+        });
+
+        expect(artist.isDisbanded).toBeTruthy();
+      });
+
+      it('returns false if disbandmentYear is present', function () {
+        const artist = new Artist(ID, {
+          name: 'Test',
+          debutYear: 2000,
+        });
+
+        expect(artist.isDisbanded).toBeFalsy();
+      });
+    });
+
     describe('query', function () {
       it('returns the query correctly', function () {
         const artist = new Artist(ID, {
           name: 'Test',
+          debutYear: 2000,
           agency: 'def',
           otherNames: 'ghi',
           isPrivate: true,
@@ -113,6 +141,7 @@ describe('Artist', function () {
       it('returns the relationships correctly', function () {
         const artist = new Artist('abc345', {
           name: 'Test',
+          debutYear: 2000,
           agency: 'def',
           otherNames: 'ghi',
           isPrivate: true,
@@ -134,6 +163,7 @@ describe('Artist', function () {
       it('returns the typeahead correctly', function () {
         const artist = new Artist(ID, {
           name: 'Test',
+          debutYear: 2000,
           agency: 'def',
           otherNames: 'ghi',
           isPrivate: true,
@@ -154,14 +184,14 @@ describe('Artist', function () {
 
   describe('methods', function () {
     describe('validate', function () {
-      it('returns true if name and genre are correct', function () {
-        const artist = new Artist(ID, { name: 'Test', genre: 'KPOP' });
+      it('returns true if name, debutYear, and genre are correct', function () {
+        const artist = new Artist(ID, { name: 'Test', debutYear: 2000, genre: 'KPOP' });
         expect(artist.validate()).toBeTruthy();
       });
 
       it('throws error if name does not exist', function () {
         function catcher() {
-          return new Artist().validate();
+          return new Artist(ID).validate();
         }
 
         expect(catcher).toThrowError(
@@ -169,9 +199,19 @@ describe('Artist', function () {
         );
       });
 
+      it('throws error if debutYear does not exist', function () {
+        function catcher() {
+          return new Artist(ID, { name: 'Test' }).validate();
+        }
+
+        expect(catcher).toThrowError(
+          "Artist validation has failed: Missing required property 'debutYear'"
+        );
+      });
+
       it('throws error if genre is not part of the GENRES enum', function () {
         function catcher() {
-          return new Artist(ID, { name: 'Test', genre: 'MARIACHI' }).validate();
+          return new Artist(ID, { name: 'Test', debutYear: 2000, genre: 'MARIACHI' }).validate();
         }
 
         expect(catcher).toThrowError("'MARIACHI' is not part of Enum(GENRES)");
@@ -183,7 +223,8 @@ describe('Artist', function () {
         const artist = new Artist(ID, {
           agency: 'Test',
           genre: 'POP',
-          isDisbanded: true,
+          debutYear: 2000,
+          disbandmentYear: 2010,
           isPrivate: true,
           isSoloist: true,
           memberUrns: ['2b'],
@@ -196,8 +237,9 @@ describe('Artist', function () {
           body: {
             agency: 'Test',
             genre: 'POP',
-            isDisbanded: true,
             isPrivate: true,
+            debutYear: 2000,
+            disbandmentYear: 2010,
             isSoloist: true,
             memberUrns: ['2b'],
             name: 'Test',
@@ -209,13 +251,14 @@ describe('Artist', function () {
       });
 
       it('works correctly omitting optional data', function () {
-        const artist = new Artist(ID, { name: 'Test' });
+        const artist = new Artist(ID, { name: 'Test', debutYear: 2000 });
         const result = artist.deserialize();
         expect(result).toEqual({
           body: {
             agency: null,
             genre: null,
-            isDisbanded: null,
+            debutYear: 2000,
+            disbandmentYear: null,
             isPrivate: null,
             isSoloist: null,
             memberUrns: null,
@@ -236,15 +279,15 @@ describe('Artist', function () {
         ['name', 'Test', '123'],
         ['agency', 'UNKNOWN', 'Test'],
         ['otherNames', '', ''],
-        ['isPrivate', false, true],
-        ['isDisbanded', false, true],
+        ['debutYear', 2000, 2010],
+        ['disbandmentYear', null, 2010],
         ['isSoloist', false, true],
         ['unitIDs', [], ['abc']],
         ['genre', 'UNKNOWN', 'KPOP'],
       ];
 
       beforeEach(function () {
-        artist = new Artist(null, { name: 'Test' });
+        artist = new Artist(null, { name: 'Test', debutYear: 2000 });
       });
 
       test.each(testList)('sets %s', function (property, defaultValue, value) {

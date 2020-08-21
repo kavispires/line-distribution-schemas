@@ -31,7 +31,9 @@ describe('Collection', function () {
     let collection;
 
     beforeEach(function () {
-      collection = new Collection('artists', Artist, [{ id: 'abc', name: 'Test' }]);
+      collection = new Collection('artists', Artist, [
+        { id: 'abc', name: 'Test', debutYear: 2000 },
+      ]);
     });
 
     describe('records', function () {
@@ -65,13 +67,14 @@ describe('Collection', function () {
 
     beforeEach(function () {
       collection = new Collection('artists', Artist, [
-        { id: 'abc', name: 'Test', isDisbanded: true },
+        { id: 'abc', name: 'Test', isPrivate: true, debutYear: 2000 },
       ]);
     });
 
     describe('addRecord', function () {
       it('adds record correctly', function () {
-        expect(collection.addRecord('bcd', { name: 'Test' }) instanceof Artist).toBeTruthy;
+        expect(collection.addRecord('bcd', { name: 'Test', debutYear: 2000 }) instanceof Artist)
+          .toBeTruthy;
         expect(collection.records.length).toEqual(2);
       });
     });
@@ -79,20 +82,20 @@ describe('Collection', function () {
     describe('updateRecord', function () {
       it('updates record correctly', function () {
         expect((collection.recordsDict['abc'].data.name = 'Test'));
-        expect((collection.recordsDict['abc'].data.isDisbanded = true));
+        expect((collection.recordsDict['abc'].data.isPrivate = true));
         collection.updateRecord('abc', { name: 'Bola' });
         expect((collection.recordsDict['abc'].data.name = 'Bola'));
-        expect((collection.recordsDict['abc'].data.isDisbanded = true));
+        expect((collection.recordsDict['abc'].data.isPrivate = true));
       });
     });
 
     describe('replaceRecord', function () {
       it('replaces record correctly', function () {
         expect((collection.recordsDict['abc'].data.name = 'Test'));
-        expect((collection.recordsDict['abc'].data.isDisbanded = true));
+        expect((collection.recordsDict['abc'].data.isPrivate = true));
         collection.updateRecord('abc', { name: 'Bola' });
         expect((collection.recordsDict['abc'].data.name = 'Bola'));
-        expect((collection.recordsDict['abc'].data.isDisbanded = false));
+        expect((collection.recordsDict['abc'].data.isPrivate = false));
       });
     });
 
@@ -118,7 +121,7 @@ describe('Collection', function () {
 
       describe('reset', function () {
         it('resets collection correctly', function () {
-          collection.addRecord('bcd', { name: 'Test' });
+          collection.addRecord('bcd', { name: 'Test', debutYear: 2000 });
           expect(collection.isDirty).toBeTruthy;
           expect(collection.records.length).toEqual(2);
 

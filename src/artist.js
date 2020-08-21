@@ -11,14 +11,15 @@ export default class Artist extends LD {
 
     // Required Properties
     this._name = null;
+    this._debutYear = null;
 
     // Optional Properties
     this._genre = Enum.GENRES.UNKNOWN;
     this._agency = null;
     this._otherNames = '';
     this._isPrivate = false;
-    this._isDisbanded = false;
     this._isSoloist = false;
+    this._disbandmentYear = null;
 
     // Direct References
     this._unit_ids = []; // Reference: Unit
@@ -32,11 +33,12 @@ export default class Artist extends LD {
   // Property types
   types = {
     _name: 'string',
+    _debutYear: 'number',
+    _disbandmentYear: 'number:optional',
     _genre: 'Enum:GENRES',
     _agency: 'string:optional',
     _otherNames: 'string:optional',
     _isPrivate: 'boolean:optional',
-    _isDisbanded: 'boolean:optional',
     _isSoloist: 'boolean:optional',
     _unit_ids: 'array:optional',
     _memberUrns: 'array:optional',
@@ -54,11 +56,13 @@ export default class Artist extends LD {
       type: this._type,
 
       name: this._name,
+      debutYear: this._debutYear,
+      disbandmentYear: this._disbandmentYear,
       agency: this._agency ?? Enum.unknown,
       genre: this._genre ?? Enum.GENRES.UNKNOWN,
       otherNames: this._otherNames,
       isPrivate: this._isPrivate ?? false,
-      isDisbanded: this._isDisbanded ?? false,
+      isDisbanded: this.isDisbanded,
       isSoloist: this._isSoloist ?? false,
       unitIDs: this._unit_ids ?? [],
       membersSnippet: this.membersSnippet,
@@ -78,6 +82,13 @@ export default class Artist extends LD {
         data: this._unit_ids.map((unitID) => ({ type: 'unit', id: unitID })),
       },
     };
+  }
+
+  /**
+   * Flag that determines if a group has disbanded
+   */
+  get isDisbanded() {
+    return Boolean(this._disbandmentYear);
   }
 
   /**
@@ -124,11 +135,12 @@ export default class Artist extends LD {
       id: this._id ?? null,
       body: {
         name: this._name,
+        debutYear: this._debutYear,
+        disbandmentYear: this._disbandmentYear || null,
         agency: this.getKnownEnumValue(this._agency),
         genre: this.getKnownEnumValue(this._genre),
         otherNames: this._otherNames || null,
         isPrivate: this._isPrivate || null,
-        isDisbanded: this._isDisbanded || null,
         isSoloist: this._isSoloist || null,
         unitIDs: this.getKnownObjectValue(this._unit_ids),
         memberUrns: this.getKnownObjectValue(this._memberUrns),
@@ -146,10 +158,11 @@ export default class Artist extends LD {
 
     if (data.id) this._id = data.id;
     if (data.name) this._name = data.name;
+    if (data.debutYear) this._debutYear = data.debutYear;
+    if (data.disbandmentYear) this._disbandmentYear = data.disbandmentYear;
     if (data.agency) this._agency = data.agency;
     if (data.otherNames) this._otherNames = data.otherNames;
     if (data.isPrivate) this._isPrivate = data.isPrivate;
-    if (data.isDisbanded) this._isDisbanded = data.isDisbanded;
     if (data.isSoloist) this._isSoloist = data.isSoloist;
     if (data.unitIDs) this._unit_ids = data.unitIDs;
     if (data.memberUrns) this._memberUrns = data.memberUrns;
