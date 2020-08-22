@@ -120,6 +120,20 @@ export default class Collection {
   }
 
   /**
+   * Find record by id
+   * @param {string} id
+   * @returns {object}
+   */
+  findByID(id) {
+    const response = this._records[id];
+    if (!response) {
+      throw Error(`Failed to find record of id ${id} in ${this._collectionName}`);
+    }
+
+    return response;
+  }
+
+  /**
    * It refreshes the createdAt date so collection is no longer dirty
    */
   refresh() {

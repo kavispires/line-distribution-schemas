@@ -106,6 +106,21 @@ describe('Collection', function () {
       });
     });
 
+    describe('findByID', function () {
+      it('finds a record correctly', function () {
+        const response = collection.findByID('abc');
+        expect(response instanceof Artist).toBeTruthy();
+      });
+
+      it('throws error if record cannot be found', function () {
+        function catcher() {
+          collection.findByID('ijk');
+        }
+
+        expect(catcher).toThrowError('Failed to find record of id ijk in artists');
+      });
+    });
+
     describe('refresh', function () {
       it('refreshes collection correctly', function () {
         expect(collection.isDirty).toBeFalsy;
