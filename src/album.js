@@ -90,7 +90,7 @@ export default class Album extends LD {
    * @returns {object[]}
    */
   get artistSnippet() {
-    return urns.parseAlbumArtistUrn(this._artistUrn);
+    return urns.parseArtistUrn(this._artistUrn);
   }
 
   /**
@@ -176,7 +176,7 @@ export default class Album extends LD {
   addTrack(title, songID, trackNumber = 0) {
     const trackPosition = !trackNumber ? this._tracklistUrns.length : trackNumber - 1;
 
-    this._tracklistUrns[trackPosition] = urns.buildAlbumSongUrn({ title, songID });
+    this._tracklistUrns[trackPosition] = urns.buildSongUrn({ title, songID });
     return this.tracklist;
   }
 
@@ -186,7 +186,7 @@ export default class Album extends LD {
    */
   _parseTracklistUrns() {
     return this._tracklistUrns.map((urn, index) => {
-      const { title, id } = urns.parseAlbumSongUrn(urn);
+      const { title, id } = urns.parseSongUrn(urn);
       return {
         title,
         id,

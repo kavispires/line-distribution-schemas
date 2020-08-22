@@ -3,24 +3,24 @@
  */
 
 /**
- * Builds AlbumArtistTurn [<name>:<artistID(optional)>]
+ * Builds ArtistUrn [<name>:<artistID(optional)>]
  * @param {object} data
  * @returns {string}
  */
-export function buildAlbumArtistUrn({ name, artistID = '' }) {
+export function buildArtistUrn({ name, artistID = '' }) {
   if (!name) {
-    throw Error('name is required to build an AlbumArtistUrn');
+    throw Error('name is required to build an ArtistUrn');
   }
 
   return `artist:${name}:${artistID}`;
 }
 
 /**
- * Parses AlbumArtistTurn [<name>:<artistID(optional)>]
+ * Parses ArtistTurn [<name>:<artistID(optional)>]
  * @param {urn} data
  * @returns {object}
  */
-export function parseAlbumArtistUrn(urn) {
+export function parseArtistUrn(urn) {
   const [type, name, id] = urn.split(':');
   return {
     name,
@@ -30,60 +30,33 @@ export function parseAlbumArtistUrn(urn) {
 }
 
 /**
- * Builds AlbumSongUrn [<title>:<songID(optional)]
+ * Builds MemberUrn [member:<birthdate>:<memberID>:<colorID>]
  * @param {object} data
  * @returns {string}
  */
-export function buildAlbumSongUrn({ title, songID = '' }) {
-  if (!title) {
-    throw Error('title is required to build an AlbumSongUrn');
-  }
-
-  return `song:${title}:${songID}`;
-}
-
-/**
- * Parses AlbumSongUrn [<title>:<songID(optional)]
- * @param {urn} data
- * @returns {object}
- */
-export function parseAlbumSongUrn(urn) {
-  const [type, title, id] = urn.split(':');
-  return {
-    title,
-    id: id || null,
-    type: `${type}/snippet`,
-  };
-}
-
-/**
- * Builds ArtistMEmberUrn [member:<birthdate>:<memberID>:<colorID>]
- * @param {object} data
- * @returns {string}
- */
-export function buildArtistMemberUrn({ birthdate, id, name, colorID }) {
+export function buildMemberUrn({ birthdate, id, name, colorID }) {
   if (!birthdate) {
-    throw Error('birthdate is required to build an ArtistMemberUrn');
+    throw Error('birthdate is required to build an MemberUrn');
   }
   if (!id) {
-    throw Error('id is required to build an ArtistMemberUrn');
+    throw Error('id is required to build an MemberUrn');
   }
   if (!name) {
-    throw Error('name is required to build an ArtistMemberUrn');
+    throw Error('name is required to build an MemberUrn');
   }
   if (!colorID) {
-    throw Error('colorID is required to build an ArtistMemberUrn');
+    throw Error('colorID is required to build an MemberUrn');
   }
 
   return `member:${birthdate}:${id}:${name}:${colorID}`;
 }
 
 /**
- * Parses ArtistMemberUrn [member:<birthdate>:<memberID>:colorID]
+ * Parses MemberUrn [member:<birthdate>:<memberID>:colorID]
  * @param {urn} data
  * @returns {object}
  */
-export function parseArtistMemberUrn(urn) {
+export function parseMemberUrn(urn) {
   const [type, birthdate, id, name, colorID] = urn.split(':');
   return {
     id,
@@ -95,31 +68,28 @@ export function parseArtistMemberUrn(urn) {
 }
 
 /**
- * Builds MemberArtistUrn [artist:<artistID>:<name>]
+ * Builds SongUrn [<title>:<songID(optional)]
  * @param {object} data
  * @returns {string}
  */
-export function buildMemberArtistUrn({ artistID, name }) {
-  if (!artistID) {
-    throw Error('artistID is required to build an MemberArtistUrn');
-  }
-  if (!name) {
-    throw Error('name is required to build an MemberArtistUrn');
+export function buildSongUrn({ title, songID = '' }) {
+  if (!title) {
+    throw Error('title is required to build an SongUrn');
   }
 
-  return `artist:${artistID}:${name}`;
+  return `song:${title}:${songID}`;
 }
 
 /**
- * Parses MemberArtistUrn [artist:<artistID>:<name>]
+ * Parses SongUrn [<title>:<songID(optional)]
  * @param {urn} data
  * @returns {object}
  */
-export function parseMemberArtistUrn(urn) {
-  const [type, id, name] = urn.split(':');
+export function parseSongUrn(urn) {
+  const [type, title, id] = urn.split(':');
   return {
-    id,
-    name,
+    title,
+    id: id || null,
     type: `${type}/snippet`,
   };
 }

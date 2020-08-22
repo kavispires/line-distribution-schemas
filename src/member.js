@@ -100,7 +100,7 @@ export default class Member extends LD {
    * @return {object}
    */
   get referenceArtistsSnippet() {
-    return Object.keys(this._referenceArtists ?? {}).map(urns.parseMemberArtistUrn);
+    return Object.keys(this._referenceArtists ?? {}).map(urns.parseArtistUrn);
   }
 
   /**
@@ -204,7 +204,7 @@ export default class Member extends LD {
       throw Error('artistID and artistName are required to add referenceArtistUrn');
     }
     const referenceArtists = this._referenceArtists ?? {};
-    referenceArtists[urns.buildMemberArtistUrn({ artistID, name: artistName })] = true;
+    referenceArtists[urns.buildArtistUrn({ artistID, name: artistName })] = true;
     this._referenceArtists = referenceArtists;
 
     return this.referenceArtistsSnippet;

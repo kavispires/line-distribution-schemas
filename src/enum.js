@@ -65,6 +65,13 @@ export default class EnumClass {
       VISUAL: 'VISUAL',
       OTHER: 'OTHER',
     };
+    this.SONGS = {
+      BALLAD: 'BALLAD',
+      UPBEAT: 'UPBEAT',
+      EDM: 'EDM',
+      OTHER: 'OTHER',
+      UNKNOWN: this.unknown,
+    };
     this.UNITS = {
       CUSTOM: 'CUSTOM',
       NA: this._na,

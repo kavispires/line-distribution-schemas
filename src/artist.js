@@ -180,7 +180,7 @@ export default class Artist extends LD {
    * @returns the members snippet
    */
   addMemberUrn(data) {
-    this._memberUrns.push(urns.buildArtistMemberUrn(data));
+    this._memberUrns.push(urns.buildMemberUrn(data));
     return this.membersSnippet;
   }
 
@@ -189,7 +189,7 @@ export default class Artist extends LD {
    * @returns {object[]}
    */
   _parseMemberUrns() {
-    return (this._memberUrns ?? []).sort().map(urns.parseArtistMemberUrn);
+    return (this._memberUrns ?? []).sort().map(urns.parseMemberUrn);
   }
 
   /**
@@ -198,6 +198,6 @@ export default class Artist extends LD {
    * @returns {string[]} list of artist-member urns
    */
   _buildMemberUrns(members) {
-    return Object.values(members).map(urns.buildArtistMemberUrn);
+    return Object.values(members).map(urns.buildMemberUrn);
   }
 }

@@ -27,7 +27,7 @@ describe('Member', function () {
           nationality: 'KOREAN',
           positions: ['DANCER', 'RAPPER'],
           primaryGenre: 'POP',
-          referenceArtists: { 'artist:abc:Test': true },
+          referenceArtists: { 'artist:Test:abc': true },
           tags: ['RAPSTAR'],
         });
         expect(member.data).toEqual({
@@ -99,8 +99,8 @@ describe('Member', function () {
           name: 'Test',
           color: 1,
           referenceArtists: {
-            'artist:abc:Test': true,
-            'artist:def:Bobs': true,
+            'artist:Test:abc': true,
+            'artist:Bobs:def': true,
           },
         });
         expect(member.referenceArtistsSnippet).toEqual([
@@ -132,8 +132,8 @@ describe('Member', function () {
           name: 'Test',
           color: 1,
           referenceArtists: {
-            'artists:abc:Test': true,
-            'artists:def:Bobs': true,
+            'artists:Test:abc': true,
+            'artists:Bobs:def': true,
           },
         });
         expect(member.referenceArtistsQuery).toEqual('test bobs');
@@ -163,7 +163,7 @@ describe('Member', function () {
           nationality: 'KOREAN',
           positions: ['DANCER', 'RAPPER'],
           primaryGenre: 'POP',
-          referenceArtists: { 'artist:abc:Test': true },
+          referenceArtists: { 'artist:Test:abc': true },
           tags: ['RAPSTAR'],
         });
 
@@ -180,8 +180,8 @@ describe('Member', function () {
           name: 'Test',
           color: 1,
           referenceArtists: {
-            'artists:abc:Test': true,
-            'artists:def:Bobs': true,
+            'artists:Test:abc': true,
+            'artists:Bobs:def': true,
           },
           alternativeName: 'Testing',
         });
@@ -274,7 +274,7 @@ describe('Member', function () {
           nationality: 'KOREAN',
           positions: ['DANCER', 'RAPPER'],
           primaryGenre: 'POP',
-          referenceArtists: { 'artist:abc:Test': true },
+          referenceArtists: { 'artist:Test:abc': true },
           tags: ['RAPSTAR'],
         });
         const result = member.deserialize();
@@ -295,7 +295,7 @@ describe('Member', function () {
             positions: ['DANCER', 'RAPPER'],
             primaryGenre: 'POP',
             referenceArtists: {
-              'artist:abc:Test': true,
+              'artist:Test:abc': true,
             },
             tags: ['RAPSTAR'],
           },
@@ -341,7 +341,7 @@ describe('Member', function () {
         ['isHidden', false, true],
         ['positions', [], ['abc']],
         ['tags', [], ['abc']],
-        ['meta', {}, { 'abc:Bobs': true }],
+        ['meta', {}, { 'Bobs:abc': true }],
         ['gender', 'UNKNOWN', 'MALE'],
         ['primaryGenre', 'UNKNOWN', 'POP'],
         ['nationality', 'UNKNOWN', 'AMERICAN'],
@@ -360,7 +360,7 @@ describe('Member', function () {
       it('sets referenceArtists', function () {
         expect(member.data.referenceArtistsSnippet).toEqual([]);
         expect(
-          member.serialize({ referenceArtists: { 'artist:m123:Bobs': true } })
+          member.serialize({ referenceArtists: { 'artist:Bobs:m123': true } })
             .referenceArtistsSnippet
         ).toEqual([
           {
