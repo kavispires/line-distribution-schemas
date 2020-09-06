@@ -49,7 +49,7 @@ export default class Member extends LD {
     _meta: 'object:optional',
     _positions: 'object:optional',
     _tags: 'array:optional',
-    _referenceArtists: 'object',
+    _referenceArtists: 'object:optional',
   };
 
   /**
