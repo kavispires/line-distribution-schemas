@@ -22,6 +22,13 @@ export default class LD {
   }
 
   /**
+   * Get instance type
+   */
+  get type() {
+    return this._type;
+  }
+
+  /**
    * Generate object with id and reference to this library entry
    */
   get entry() {

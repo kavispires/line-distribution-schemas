@@ -34,12 +34,12 @@ export function parseAlbumUrn(urn) {
  * @param {object} data
  * @returns {string}
  */
-export function buildArtistUrn({ name, artistID = '' }) {
+export function buildArtistUrn({ name, id = '' }) {
   if (!name) {
     throw Error('name is required to build an ArtistUrn');
   }
 
-  return `artist:${name}:${artistID}`;
+  return `artist:${name}:${id}`;
 }
 
 /**
@@ -61,7 +61,7 @@ export function parseArtistUrn(urn) {
  * @param {object} data
  * @returns {string}
  */
-export function buildMemberUrn({ birthdate, id, name, colorID }) {
+export function buildMemberUrn({ birthdate, id, name, color }) {
   if (!birthdate) {
     throw Error('birthdate is required to build an MemberUrn');
   }
@@ -71,11 +71,11 @@ export function buildMemberUrn({ birthdate, id, name, colorID }) {
   if (!name) {
     throw Error('name is required to build an MemberUrn');
   }
-  if (!colorID) {
-    throw Error('colorID is required to build an MemberUrn');
+  if (!color) {
+    throw Error('color is required to build an MemberUrn');
   }
 
-  return `member:${birthdate}:${id}:${name}:${colorID}`;
+  return `member:${birthdate}:${id}:${name}:${color}`;
 }
 
 /**

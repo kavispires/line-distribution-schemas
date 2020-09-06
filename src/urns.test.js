@@ -31,7 +31,7 @@ describe('urns', function () {
 
   describe('buildArtistUrn', function () {
     it('works correctly', function () {
-      expect(urns.buildArtistUrn({ name: 'Test', artistID: 'abc' })).toEqual('artist:Test:abc');
+      expect(urns.buildArtistUrn({ name: 'Test', id: 'abc' })).toEqual('artist:Test:abc');
     });
 
     it('works with optional artistID correctly', function () {
@@ -88,7 +88,7 @@ describe('urns', function () {
   describe('buildMemberUrn', function () {
     it('works correctly', function () {
       expect(
-        urns.buildMemberUrn({ birthdate: 20200101, id: 'abc', name: 'Test', colorID: '1' })
+        urns.buildMemberUrn({ birthdate: 20200101, id: 'abc', name: 'Test', color: '1' })
       ).toEqual('member:20200101:abc:Test:1');
     });
 
@@ -116,12 +116,12 @@ describe('urns', function () {
       expect(catcher).toThrowError('name is required to build an MemberUrn');
     });
 
-    it('throws error if colorID is not provided', function () {
+    it('throws error if color is not provided', function () {
       function catcher() {
         return urns.buildMemberUrn({ birthdate: 20200101, id: 'abc', name: 'Test' });
       }
 
-      expect(catcher).toThrowError('colorID is required to build an MemberUrn');
+      expect(catcher).toThrowError('color is required to build an MemberUrn');
     });
   });
 

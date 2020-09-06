@@ -372,46 +372,22 @@ describe('Member', function () {
       });
     });
 
-    describe('addReferenceArtistUrn', function () {
+    describe('connectReferenceArtist', function () {
       it('works correctly', function () {
         const member = new Member(ID, { name: 'Test', color: 1 });
-        const result = member.addReferenceArtistUrn('abc', 'bob');
+        const result = member.connectReferenceArtist({ id: 'abc', name: 'bob' });
         expect(result).toEqual([{ id: 'abc', name: 'bob', type: 'artist/snippet' }]);
       });
 
       it('throws an error if any parameter is missing correctly', function () {
-        function catcher1() {
+        function catcher() {
           return new Member(ID, {
             name: 'Test',
             color: 1,
-          }).addReferenceArtistUrn();
+          }).connectReferenceArtist({ id: 'abc' });
         }
 
-        expect(catcher1).toThrowError(
-          'artistID and artistName are required to add referenceArtistUrn'
-        );
-
-        function catcher2() {
-          return new Member(ID, {
-            name: 'Test',
-            color: 1,
-          }).addReferenceArtistUrn('abc');
-        }
-
-        expect(catcher2).toThrowError(
-          'artistID and artistName are required to add referenceArtistUrn'
-        );
-
-        function catcher3() {
-          return new Member(ID, {
-            name: 'Test',
-            color: 1,
-          }).addReferenceArtistUrn(undefined, 'Bobs');
-        }
-
-        expect(catcher3).toThrowError(
-          'artistID and artistName are required to add referenceArtistUrn'
-        );
+        expect(catcher).toThrowError('name is required to build an ArtistUrn');
       });
     });
 

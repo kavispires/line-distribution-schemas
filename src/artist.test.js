@@ -314,11 +314,11 @@ describe('Artist', function () {
     describe('memberUrn', function () {
       it('adds member urn correctly', function () {
         const artist = new Artist(ID);
-        const result = artist.addMemberUrn({
+        const result = artist.connectMember({
           birthdate: '20200101',
           id: 'abc567',
           name: 'Bob',
-          colorID: '12',
+          color: '12',
         });
         expect(result).toEqual([
           {

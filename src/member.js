@@ -199,13 +199,15 @@ export default class Member extends LD {
    * @param {string} artistName
    * @returns {object} updated
    */
-  addReferenceArtistUrn(artistID, artistName) {
-    if (!artistID || !artistName) {
-      throw Error('artistID and artistName are required to add referenceArtistUrn');
-    }
+  connectReferenceArtist(artistData) {
+    const newArtistUrn = urns.buildArtistUrn(artistData);
     const referenceArtists = this._referenceArtists ?? {};
-    referenceArtists[urns.buildArtistUrn({ artistID, name: artistName })] = true;
-    this._referenceArtists = referenceArtists;
+    if (referenceArtists[newArtistUrn]) {
+      console.warn(`Artist ID ${artistData.id} is already connected to member ${this.id}`);
+    } else {
+      referenceArtists[newArtistUrn] = true;
+      this._referenceArtists = referenceArtists;
+    }
 
     return this.referenceArtistsSnippet;
   }

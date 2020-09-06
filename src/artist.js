@@ -179,9 +179,27 @@ export default class Artist extends LD {
    * @param {object} data
    * @returns the members snippet
    */
-  addMemberUrn(data) {
-    this._memberUrns.push(urns.buildMemberUrn(data));
+  connectMember(memberData) {
+    if (this._memberUrns.find((entry) => entry.includes(memberData.id))) {
+      console.warn(`Member ID ${memberData.id} is already connected to artist ${this.id}`);
+    } else {
+      this._memberUrns.push(urns.buildMemberUrn(memberData));
+    }
     return this.membersSnippet;
+  }
+
+  /**
+   * Adds unitID to list of unit references if not yet present
+   * @param {string} unitID
+   * @returns {string[]} the list of unit ids
+   */
+  connectUnit(unitID) {
+    if (this._unit_ids.find((id) => id === unitID)) {
+      console.warn(`Unit ID ${unitID} is already connected to artist ${this.id}`);
+    } else {
+      this._unit_ids.push(unitID);
+    }
+    return this._unit_ids;
   }
 
   /**

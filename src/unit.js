@@ -155,6 +155,20 @@ export default class Unit extends LD {
   }
 
   /**
+   * Adds unitID to list of unit references if not yet present
+   * @param {string} unitID
+   * @returns {string[]} the list of unit ids
+   */
+  connectArtist(artistID) {
+    if (this._artist_id === artistID) {
+      console.warn(`Artist ID ${artistID} is already connected`);
+    } else {
+      this._artist_id = artistID;
+    }
+    return this._artist_id;
+  }
+
+  /**
    * Builds a members snippet with positions and stats information
    * @returns {object[]}
    */
