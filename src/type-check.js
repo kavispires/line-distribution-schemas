@@ -1,9 +1,5 @@
 import { Enum } from './enum';
 
-function exists(value) {
-  return value !== undefined && value !== null;
-}
-
 /**
  * Verifies type of given properties
  * @param {class} context the class of given type (artist, unit, etc)
@@ -41,26 +37,13 @@ export function typeCheck(context, types) {
           Enum.validate(extra, currentValue);
           break;
         case 'Date':
-          if (!currentValue || typeof currentValue !== 'number') {
-            errorMessage = `Expected ${property} to be a date number format YYYYMMDD, instead got ${typeof currentValue}`;
-            break;
-          }
-          if (currentValue < 10000000) {
-            errorMessage = `Expected ${property} to be a date number format YYYYMMDD, instead got ${currentValue}`;
-            break;
-          }
-          const valueStr = currentValue.toString();
-          const year = +valueStr.substring(0, 4);
-          const month = +valueStr.substring(4, 6);
-          const day = +valueStr.substring(6);
-          if (year < 1000 || month < 1 || month > 12 || day < 1 || day > 31) {
-            errorMessage = `Expected ${property} to be a date with format YYYYMMDD, instead got ${currentValue}`;
-          }
+          errorMessage = validateDate(currentValue, property);
+          break;
+        case 'Year':
+          errorMessage = validateYear(currentValue, property);
           break;
         case 'array':
-          if (!Array.isArray(currentValue)) {
-            errorMessage = `Expected ${property} to be an array, instead got ${typeof currentValue}`;
-          }
+          errorMessage = validateArray(currentValue, property);
           break;
         default:
           if (typeof currentValue !== type) {
@@ -75,4 +58,66 @@ export function typeCheck(context, types) {
   }
 
   return true;
+}
+
+// Type Checking Utils
+
+/**
+ * Checks if value is not a nullish type
+ * @param {*} value
+ */
+function exists(value) {
+  return value !== undefined && value !== null;
+}
+
+/**
+ * Check if value is a Date
+ * @param {string} value
+ * @param {string} property
+ */
+function validateDate(value, property) {
+  if (!value || typeof value !== 'number') {
+    return `Expected ${property} to be a date number format YYYYMMDD, instead got ${typeof value}`;
+  }
+  if (value < 10000000) {
+    return `Expected ${property} to be a date number format YYYYMMDD, instead got ${value}`;
+  }
+  const valueStr = value.toString();
+  const year = +valueStr.substring(0, 4);
+  const month = +valueStr.substring(4, 6);
+  const day = +valueStr.substring(6);
+  if (year < 1000 || month < 1 || month > 12 || day < 1 || day > 31) {
+    return `Expected ${property} to be a date with format YYYYMMDD, instead got ${value}`;
+  }
+
+  return null;
+}
+
+/**
+ * Check if value is an Array
+ * @param {string} value
+ * @param {string} property
+ */
+function validateArray(value, property) {
+  if (!Array.isArray(value)) {
+    return `Expected ${property} to be an array, instead got ${typeof value}`;
+  }
+
+  return null;
+}
+
+/**
+ * Check if value is a Year
+ * @param {string} value
+ * @param {string} property
+ */
+function validateYear(value, property) {
+  if (!value || typeof value !== 'number') {
+    return `Expected ${property} to be a year number format YYYY, instead got ${typeof value}`;
+  }
+  if (value < 1000 || value > 9999) {
+    return `Expected ${property} to be a year number format YYYY, instead got ${value}`;
+  }
+
+  return null;
 }

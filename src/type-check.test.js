@@ -43,6 +43,12 @@ describe('type-check', function () {
     expect(typeCheck(context, types)).toBeTruthy();
   });
 
+  it('checks a Year number correctly', function () {
+    const context = { foo: 2000 };
+    const types = { foo: 'Year' };
+    expect(typeCheck(context, types)).toBeTruthy();
+  });
+
   it('checks multiple properties at once correctly', function () {
     const context = { foo: 'abc', bar: 123, biz: true };
     const types = { foo: 'string', bar: 'number', biz: 'boolean' };
@@ -141,7 +147,7 @@ describe('type-check', function () {
     );
   });
 
-  it('throws error if Date is not a number', function () {
+  it('throws error if Date is not formatted correctly', function () {
     function catcher() {
       const context = { foo: 20000 };
       const types = { foo: 'Date' };
@@ -151,6 +157,28 @@ describe('type-check', function () {
     expect(catcher).toThrowError(
       'Expected foo to be a date number format YYYYMMDD, instead got 20000'
     );
+  });
+
+  it('throws error if Year is not a number', function () {
+    function catcher() {
+      const context = { foo: '20000101' };
+      const types = { foo: 'Year' };
+      typeCheck(context, types);
+    }
+
+    expect(catcher).toThrowError(
+      'Expected foo to be a year number format YYYY, instead got string'
+    );
+  });
+
+  it('throws error if Year is not formatted correctly', function () {
+    function catcher() {
+      const context = { foo: 20000 };
+      const types = { foo: 'Year' };
+      typeCheck(context, types);
+    }
+
+    expect(catcher).toThrowError('Expected foo to be a year number format YYYY, instead got 20000');
   });
 
   it('throws error if the Date is not correct', function () {
