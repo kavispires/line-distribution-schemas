@@ -3,6 +3,33 @@
  */
 
 /**
+ * Builds AlbumUrn [<title>:<albumID(optional)>]
+ * @param {object} data
+ * @returns {string}
+ */
+export function buildAlbumUrn({ title, albumID = '' }) {
+  if (!title) {
+    throw Error('title is required to build an AlbumUrn');
+  }
+
+  return `album:${title}:${albumID}`;
+}
+
+/**
+ * Parses AlbumUrn [<title>:<albumID(optional)>]
+ * @param {urn} data
+ * @returns {object}
+ */
+export function parseAlbumUrn(urn) {
+  const [type, title, id] = urn.split(':');
+  return {
+    title,
+    id: id || null,
+    type: `${type}/snippet`,
+  };
+}
+
+/**
  * Builds ArtistUrn [<name>:<artistID(optional)>]
  * @param {object} data
  * @returns {string}
@@ -16,7 +43,7 @@ export function buildArtistUrn({ name, artistID = '' }) {
 }
 
 /**
- * Parses ArtistTurn [<name>:<artistID(optional)>]
+ * Parses ArtistUrn [<name>:<artistID(optional)>]
  * @param {urn} data
  * @returns {object}
  */

@@ -1,6 +1,34 @@
 import * as urns from './urns';
 
 describe('urns', function () {
+  describe('buildAlbumUrn', function () {
+    it('works correctly', function () {
+      expect(urns.buildAlbumUrn({ title: 'Test', albumID: 'abc' })).toEqual('album:Test:abc');
+    });
+
+    it('works with optional albumID correctly', function () {
+      expect(urns.buildAlbumUrn({ title: 'Test' })).toEqual('album:Test:');
+    });
+
+    it('throws error if title is not provided', function () {
+      function catcher() {
+        return urns.buildAlbumUrn({});
+      }
+
+      expect(catcher).toThrowError('title is required to build an AlbumUrn');
+    });
+  });
+
+  describe('parseAlbumUrn', function () {
+    it('works correctly', function () {
+      expect(urns.parseAlbumUrn('album:Test:abc')).toEqual({
+        id: 'abc',
+        title: 'Test',
+        type: 'album/snippet',
+      });
+    });
+  });
+
   describe('buildArtistUrn', function () {
     it('works correctly', function () {
       expect(urns.buildArtistUrn({ name: 'Test', artistID: 'abc' })).toEqual('artist:Test:abc');
