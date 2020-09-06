@@ -60,6 +60,23 @@ describe('Collection', function () {
         expect(collection.isDirty).toBeTruthy();
       });
     });
+
+    describe('types', function () {
+      it('get the object list of types for the collections class', function () {
+        expect(collection.types).toEqual({
+          _agency: 'string:optional',
+          _debutYear: 'number',
+          _disbandmentYear: 'number:optional',
+          _genre: 'Enum:GENRES',
+          _isPrivate: 'boolean:optional',
+          _isSoloist: 'boolean:optional',
+          _memberUrns: 'array:optional',
+          _name: 'string',
+          _otherNames: 'string:optional',
+          _unit_ids: 'array:optional',
+        });
+      });
+    });
   });
 
   describe('methods', function () {

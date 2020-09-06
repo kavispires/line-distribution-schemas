@@ -45,6 +45,14 @@ export default class Collection {
   }
 
   /**
+   * Get dictionary of types of the library class
+   * @returns {object}
+   */
+  get types() {
+    return new this._libraryClass().types;
+  }
+
+  /**
    * Creates multiple records at once
    * @param {object} data
    * @param {boolean} isInitialData
